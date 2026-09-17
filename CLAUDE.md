@@ -48,6 +48,9 @@ robo.use_gyro(True)
 - Medidas do robô em **milímetros** (o `DriveBase` usa mm)
 - Antes de andar, esperar `hub.imu.ready()` com o robô parado
 
+Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
+`DISTANCIA_RODAS = 143` mm, de centro a centro das rodas.
+
 ## Arquivos
 
 - `spike4.py` — percurso completo com a garra

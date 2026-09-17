@@ -58,8 +58,8 @@ motor_garra.reset_angle(0)
 DIAMETRO_RODA = 55        # mm
 
 # Distancia de UM CENTRO DE RODA
-# ate o outro. MEÇA no seu robo.
-DISTANCIA_RODAS = 112     # mm
+# ate o outro, medida no robo.
+DISTANCIA_RODAS = 143     # mm
 
 
 # ==========================

@@ -50,7 +50,7 @@ motor_garra.reset_angle(0)
 # Em MILIMETROS
 
 DIAMETRO_RODA = 55        # mm
-DISTANCIA_RODAS = 112     # mm
+DISTANCIA_RODAS = 143     # mm
 
 
 # ==========================
