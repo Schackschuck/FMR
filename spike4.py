@@ -217,119 +217,171 @@ def soltar_garra():
 
 
 # ==========================================================
-#                    PREPARAÇÃO
-# ==========================================================
-
-abrir_garra()
-
-
-# ==========================================================
-#                    PERCURSO 1
+#                      PERCURSO
 # ==========================================================
 
 # Luz VERDE = comecou a andar
 
 hub.light.on(Color.GREEN)
 
+print("PERCURSO INICIADO")
 
+
+# ==========================
 # 1 - ANDAR 2,10 METROS
+# ==========================
 
-print("PERCURSO 1")
-print("Andando 2,10 metros...")
+print("1) Andando 2,10 metros...")
 
 andar(210)
 
 
-# 2 - PARAR 1 SEGUNDO
+# ==========================
+# 2 - CURVA 90° ESQUERDA
+# ==========================
 
-robo.stop()
+print("2) Curva 90 graus esquerda")
 
-wait(1000)
-
-
-# 3 - GIRAR 85° PARA ESQUERDA
-
-girar_esquerda(85)
+girar_esquerda(90)
 
 
-# 4 - ANDAR 60 CM
+# ==========================
+# 3 - ANDAR 60 CM
+# ==========================
 
-print("Andando 60 cm...")
+print("3) Andando 60 cm...")
 
 andar(60)
 
 
 # ==========================
-# 5 - PEGAR O OBJETO
-# ==========================
-# Se a garra tiver que fechar em
-# outro ponto, mova esta chamada
-# de lugar (ela e so uma linha).
-
-robo.stop()
-
-wait(500)
-
-fechar_garra()
-
-wait(500)
-
-
-# ==========================
-# FIM DO PERCURSO 1
+# 4 - PARAR 1 SEGUNDO
 # ==========================
 
-print("PERCURSO 1 TERMINADO")
-
-wait(1000)
-
-
-# ==========================================================
-#                    PERCURSO DE VOLTA
-# ==========================================================
-
-# 6 - RÉ 50 CM
-
-print("Dando re 50 cm...")
-
-re(50)
-
-
-# 7 - PARAR 1 SEGUNDO
+print("4) Parado 1 segundo")
 
 robo.stop()
 
 wait(1000)
 
 
-# 8 - GIRAR 90° PARA ESQUERDA
+# ==========================
+# 5 - RÉ 37 CM
+# ==========================
+
+print("5) Dando re 37 cm...")
+
+re(37)
+
+
+# ==========================
+# 6 - CURVA 90° ESQUERDA
+# ==========================
+
+print("6) Curva 90 graus esquerda")
 
 girar_esquerda(90)
 
 
-# 9 - ANDAR 2,10 METROS
+# ==========================
+# 7 - ANDAR 2,10 METROS
+# ==========================
 
-print("Andando 2,10 metros de volta...")
+print("7) Andando 2,10 metros...")
 
 andar(210)
 
 
 # ==========================
-# FIM
+# 8 - PARAR 10 SEGUNDOS
 # ==========================
+
+print("8) Parado 10 segundos")
 
 robo.stop()
 
+wait(10000)
+
 
 # ==========================
-# SOLTAR O OBJETO
+# 9 - ANDAR 100 CM
 # ==========================
 
-wait(500)
+print("9) Andando 100 cm...")
+
+andar(100)
+
+
+# ==========================
+# 10 - CURVA 90° DIREITA
+# ==========================
+
+print("10) Curva 90 graus direita")
+
+girar_direita(90)
+
+
+# ==========================
+# 11 - ANDAR 5 CM
+# ==========================
+
+print("11) Andando 5 cm...")
+
+andar(5)
+
+
+# ==========================
+# 12 - PARAR 1 SEGUNDO
+# ==========================
+
+print("12) Parado 1 segundo")
+
+robo.stop()
+
+wait(1000)
+
+
+# ==========================
+# 13 - ABRIR A GARRA 35°
+# ==========================
+
+print("13) Abrindo a garra")
 
 abrir_garra()
 
-wait(500)
+
+# ==========================
+# 14 - VOLTAR 5 CM
+# ==========================
+
+print("14) Voltando 5 cm...")
+
+re(5)
+
+
+# ==========================
+# 15 - CURVA 90° DIREITA
+# ==========================
+
+print("15) Curva 90 graus direita")
+
+girar_direita(90)
+
+
+# ==========================
+# 16 - ANDAR 100 CM
+# ==========================
+
+print("16) Andando 100 cm...")
+
+andar(100)
+
+
+# ==========================
+# 17 - PARAR
+# ==========================
+
+robo.stop()
 
 soltar_garra()
 
