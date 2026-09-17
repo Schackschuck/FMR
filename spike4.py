@@ -8,15 +8,10 @@ hub = PrimeHub()
 
 
 # ==========================
-# SINAL DE QUE O PROGRAMA
-# COMECOU
+# SINAL DE INICIO
 # ==========================
 # Luz VERMELHA + bip = o programa
-# esta rodando de verdade.
-# Se nao acender nada, o problema
-# nao esta no codigo: o programa
-# nao foi baixado ou nao foi
-# iniciado no hub.
+# esta rodando
 
 hub.light.on(Color.RED)
 hub.speaker.beep(500, 200)
@@ -25,42 +20,21 @@ print("PROGRAMA INICIADO")
 
 
 # ==========================
-# MOTORES DA TRACAO
+# MOTORES
 # ==========================
 
 motor_a = Motor(Port.A)
 motor_b = Motor(Port.B)
 
-print("Motores A e B: OK")
-
 
 # ==========================
 # MOTOR DA GARRA
 # ==========================
-# Se a garra nao estiver ligada na
-# porta F, o programa AVISA e segue
-# sem ela, em vez de travar.
-#
 # Se a garra abrir quando deveria
 # fechar, troque para:
 # Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
-try:
-
-    motor_garra = Motor(Port.F)
-
-    TEM_GARRA = True
-
-    print("Garra na porta F: OK")
-
-except OSError:
-
-    motor_garra = None
-
-    TEM_GARRA = False
-
-    print("AVISO: nada ligado na porta F")
-    print("O percurso vai rodar SEM a garra")
+motor_garra = Motor(Port.F)
 
 
 # ==========================
@@ -76,6 +50,7 @@ DIAMETRO_RODA = 5.5       # cm
 
 VELOCIDADE = 400
 VELOCIDADE_GIRO = 200
+VELOCIDADE_GARRA = 300
 
 
 # ==========================
@@ -83,18 +58,8 @@ VELOCIDADE_GIRO = 200
 # ==========================
 
 # Quanto o motor gira para abrir
-# a garra (em graus)
+# ou fechar a garra (em graus)
 ABERTURA_GARRA = 90
-
-# Forca da garra em %
-# Valor baixo = aperta menos
-FORCA_GARRA = 40
-
-# Tempo maximo que a garra pode
-# ficar tentando abrir ou fechar.
-# Isso impede o programa de travar
-# para sempre.
-TEMPO_LIMITE_GARRA = 3000   # ms
 
 
 # ==========================
@@ -184,95 +149,35 @@ def girar_esquerda(angulo):
 
 
 # ==========================
-# FECHAR A GARRA
-# ==========================
-# Fecha ate encostar no objeto e
-# para sozinha. Nunca fica travada:
-# se passar do TEMPO_LIMITE_GARRA
-# ela desiste e o programa segue.
-
-def fechar_garra():
-
-    if not TEM_GARRA:
-        print("Sem garra. Pulando fechar.")
-        return
-
-    print("Fechando garra...")
-
-    relogio = StopWatch()
-
-    motor_garra.dc(-FORCA_GARRA)
-
-    while relogio.time() < TEMPO_LIMITE_GARRA:
-
-        parou = abs(motor_garra.speed()) < 30
-
-        if relogio.time() > 300 and parou:
-            break
-
-        wait(10)
-
-    motor_garra.hold()
-
-    print("Garra fechada.")
-
-
-# ==========================
 # ABRIR A GARRA
 # ==========================
 
 def abrir_garra():
 
-    if not TEM_GARRA:
-        print("Sem garra. Pulando abrir.")
-        return
-
     print("Abrindo garra...")
 
-    relogio = StopWatch()
-
-    motor_garra.dc(FORCA_GARRA)
-
-    while relogio.time() < TEMPO_LIMITE_GARRA:
-
-        if motor_garra.angle() >= ABERTURA_GARRA:
-            break
-
-        parou = abs(motor_garra.speed()) < 30
-
-        if relogio.time() > 300 and parou:
-            break
-
-        wait(10)
-
-    motor_garra.stop()
+    motor_garra.run_angle(
+        VELOCIDADE_GARRA,
+        ABERTURA_GARRA
+    )
 
     print("Garra aberta.")
 
 
 # ==========================
-# CALIBRAR A GARRA
+# FECHAR A GARRA
 # ==========================
-# Fecha a garra ate o fim e usa
-# esse ponto como ZERO.
 
-def calibrar_garra():
+def fechar_garra():
 
-    if not TEM_GARRA:
-        print("Sem garra. Pulando calibracao.")
-        return
+    print("Fechando garra...")
 
-    print("Calibrando garra...")
+    motor_garra.run_angle(
+        VELOCIDADE_GARRA,
+        -ABERTURA_GARRA
+    )
 
-    fechar_garra()
-
-    motor_garra.reset_angle(0)
-
-    motor_garra.stop()
-
-    wait(200)
-
-    print("Garra calibrada. Zero definido.")
+    print("Garra fechada.")
 
 
 # ==========================
@@ -282,17 +187,12 @@ def calibrar_garra():
 
 def soltar_garra():
 
-    if not TEM_GARRA:
-        return
-
     motor_garra.stop()
 
 
 # ==========================================================
 #                    PREPARAÇÃO
 # ==========================================================
-
-calibrar_garra()
 
 abrir_garra()
 
@@ -301,8 +201,7 @@ abrir_garra()
 #                    PERCURSO 1
 # ==========================================================
 
-# Luz VERDE = saiu da preparacao
-# e comecou a andar
+# Luz VERDE = comecou a andar
 
 hub.light.on(Color.GREEN)
 

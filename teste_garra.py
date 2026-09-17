@@ -11,11 +11,8 @@ hub = PrimeHub()
 #              TESTE SO DA GARRA - PORTA F
 # ==========================================================
 # Este programa NAO anda. So mexe na
-# garra, para voce achar o sentido
-# certo, a abertura certa e a forca
-# certa antes de rodar o percurso.
-#
-# Pode deixar o robo em cima da mesa.
+# garra, para achar o sentido certo
+# e a abertura certa.
 
 hub.light.on(Color.RED)
 hub.speaker.beep(500, 200)
@@ -32,62 +29,18 @@ print("==============================")
 # FECHAR, troque a linha por:
 # Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
-try:
-
-    motor_garra = Motor(Port.F)
-
-    print("Garra encontrada na porta F")
-
-except OSError:
-
-    hub.light.on(Color.ORANGE)
-    hub.speaker.beep(200, 800)
-
-    print("ERRO: nada ligado na porta F")
-    print("Confira o cabo e a porta.")
-
-    raise
+motor_garra = Motor(Port.F)
 
 
 # ==========================
 # AJUSTES
 # ==========================
 
+VELOCIDADE_GARRA = 300
+
 # Quanto o motor gira para abrir
+# ou fechar (em graus)
 ABERTURA_GARRA = 90
-
-# Forca da garra em %
-FORCA_GARRA = 40
-
-# Tempo maximo de cada movimento.
-# Impede o programa de travar.
-TEMPO_LIMITE = 3000   # ms
-
-
-# ==========================
-# FECHAR A GARRA
-# ==========================
-
-def fechar_garra():
-
-    print("Fechando...")
-
-    relogio = StopWatch()
-
-    motor_garra.dc(-FORCA_GARRA)
-
-    while relogio.time() < TEMPO_LIMITE:
-
-        parou = abs(motor_garra.speed()) < 30
-
-        if relogio.time() > 300 and parou:
-            break
-
-        wait(10)
-
-    motor_garra.hold()
-
-    print("Fechou. Angulo:", motor_garra.angle())
 
 
 # ==========================
@@ -98,59 +51,38 @@ def abrir_garra():
 
     print("Abrindo...")
 
-    relogio = StopWatch()
+    motor_garra.run_angle(
+        VELOCIDADE_GARRA,
+        ABERTURA_GARRA
+    )
 
-    motor_garra.dc(FORCA_GARRA)
-
-    while relogio.time() < TEMPO_LIMITE:
-
-        if motor_garra.angle() >= ABERTURA_GARRA:
-            break
-
-        parou = abs(motor_garra.speed()) < 30
-
-        if relogio.time() > 300 and parou:
-            break
-
-        wait(10)
-
-    motor_garra.stop()
-
-    print("Abriu. Angulo:", motor_garra.angle())
+    print("Angulo:", motor_garra.angle())
 
 
 # ==========================
-# CALIBRAR
+# FECHAR A GARRA
 # ==========================
-# Fecha ate o fim e chama esse
-# ponto de ZERO.
 
-def calibrar_garra():
+def fechar_garra():
 
-    print("------------------------------")
-    print("Calibrando...")
+    print("Fechando...")
 
-    fechar_garra()
+    motor_garra.run_angle(
+        VELOCIDADE_GARRA,
+        -ABERTURA_GARRA
+    )
 
-    motor_garra.reset_angle(0)
-
-    motor_garra.stop()
-
-    wait(200)
-
-    print("Zero definido.")
+    print("Angulo:", motor_garra.angle())
 
 
 # ==========================================================
-#                 PARTE 1 - TESTE AUTOMATICO
+#                 PARTE 1 - AUTOMATICO
 # ==========================================================
-
-calibrar_garra()
 
 hub.light.on(Color.GREEN)
 
 print("------------------------------")
-print("TESTE AUTOMATICO: 3 ciclos")
+print("AUTOMATICO: 3 ciclos")
 
 for i in range(3):
 
@@ -164,14 +96,14 @@ for i in range(3):
 
 motor_garra.stop()
 
-print("Teste automatico terminado.")
+print("Automatico terminado.")
 
 
 # ==========================================================
-#                 PARTE 2 - TESTE MANUAL
+#                 PARTE 2 - MANUAL
 # ==========================================================
-# Agora voce controla com os botoes
-# de seta do hub.
+# Controle pelos botoes de seta
+# do hub.
 
 hub.light.on(Color.BLUE)
 

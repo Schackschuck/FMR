@@ -34,8 +34,7 @@ parciais.
 ## Arquivos
 
 - `spike4.py` — percurso completo com a garra
-- `teste_garra.py` — testa só a garra (automático + manual pelos botões)
-- `diagnostico.py` — testa portas A, B, F e o giroscópio, um de cada vez
+- `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 
 ## Estilo do código
 
@@ -47,11 +46,15 @@ parciais.
 - Valores de ajuste ficam em constantes MAIÚSCULAS no topo, não espalhados
   pelo código
 
-## Cuidados que já custaram tempo
+## Regra fixa: nada de teste de porta
 
-- Todo movimento de garra tem tempo limite. `run_until_stalled` pode prender o
-  programa para sempre se a garra girar livre.
-- Motor que pode não estar conectado vai dentro de `try/except OSError` — senão
-  o programa inteiro morre na criação do objeto, antes de qualquer `print`.
-- Luz e bip no início: vermelho = rodando, verde = andando, azul = terminou.
-  Serve para separar "erro no código" de "programa nem iniciou".
+Não verificar se o motor está presente na porta, não usar `try/except OSError`
+em volta de `Motor(...)`, não detectar travamento com `run_until_stalled` nem
+com leitura de `speed()`. O motor recebe o comando e gira — só isso.
+
+A garra abre e fecha com `run_angle` em `ABERTURA_GARRA` graus, positivo para
+abrir e negativo para fechar.
+
+## Sinal visual
+
+Luz e bip no início: vermelho = rodando, verde = andando, azul = terminou.
