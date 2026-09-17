@@ -52,7 +52,7 @@ robo.use_gyro(True)
 
 - `spike4.py` — percurso completo com a garra
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
-- `teste_rapido.py` — anda 10 cm e abre a garra 30°, para conferir medidas
+- `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 
 ## Estilo do código
 
@@ -88,4 +88,4 @@ Logo depois de criar o motor vem `motor_garra.reset_angle(0)`: a posição em qu
 a garra está ao iniciar o programa passa a valer como ângulo zero. Por isso a
 garra deve estar **fechada** antes de rodar qualquer programa.
 
-`ABERTURA_GARRA = 20` graus.
+`ABERTURA_GARRA = 35` graus.
