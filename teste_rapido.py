@@ -33,7 +33,7 @@ motor_direito = Motor(Port.B)
 # MOTOR DA GARRA
 # ==========================
 
-motor_garra = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+motor_garra = Motor(Port.D, Direction.CLOCKWISE)
 
 
 # A posicao em que a garra esta

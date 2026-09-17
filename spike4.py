@@ -33,11 +33,11 @@ motor_direito = Motor(Port.B)
 # ==========================
 # MOTOR DA GARRA
 # ==========================
-# O sentido esta invertido no robo,
-# por isso o COUNTERCLOCKWISE.
-# Assim positivo continua sendo ABRIR.
+# Depois da mudanca na estrutura, o
+# sentido voltou ao normal: CLOCKWISE.
+# Positivo continua sendo ABRIR.
 
-motor_garra = Motor(Port.D, Direction.COUNTERCLOCKWISE)
+motor_garra = Motor(Port.D, Direction.CLOCKWISE)
 
 
 # A posicao em que a garra esta
