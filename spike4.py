@@ -69,7 +69,7 @@ VELOCIDADE_GARRA = 300    # graus por segundo
 
 # Quanto o motor gira para abrir
 # ou fechar a garra (em graus)
-ABERTURA_GARRA = 90
+ABERTURA_GARRA = 20
 
 
 # ==========================
