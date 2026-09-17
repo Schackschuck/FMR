@@ -1,3 +1,12 @@
+from pybricks.hubs import PrimeHub
+from pybricks.pupdevices import Motor, ColorSensor, UltrasonicSensor, ForceSensor
+from pybricks.parameters import Button, Color, Direction, Port, Side, Stop
+from pybricks.robotics import DriveBase
+from pybricks.tools import wait, StopWatch
+
+hub = PrimeHub()
+
+
 # ==========================
 # DIAGNOSTICO DO SPIKE
 # ==========================
@@ -11,17 +20,10 @@
 # Deixe o robo com as rodas no ar
 # para ele nao sair andando.
 
-from pybricks.hubs import PrimeHub
-from pybricks.pupdevices import Motor
-from pybricks.parameters import Color, Port
-from pybricks.tools import wait
-
 
 # ==========================
 # TESTE 0 - O HUB LIGA?
 # ==========================
-
-hub = PrimeHub()
 
 hub.light.on(Color.RED)
 hub.speaker.beep(500, 300)
