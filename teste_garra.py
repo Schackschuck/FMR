@@ -7,62 +7,101 @@
 
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor
-from pybricks.parameters import Direction, Port, Stop
-from pybricks.tools import wait
+from pybricks.parameters import Color, Direction, Port
+from pybricks.tools import wait, StopWatch
 
 
 hub = PrimeHub()
 
-# Se abrir e fechar estiverem invertidos,
-# troque para:
+hub.light.on(Color.RED)
+hub.speaker.beep(500, 200)
+
+print("TESTE DA GARRA INICIADO")
+
+
+# Se abrir e fechar estiverem
+# invertidos, troque para:
 # Motor(Port.F, Direction.COUNTERCLOCKWISE)
 
-motor_garra = Motor(Port.F)
+try:
+
+    motor_garra = Motor(Port.F)
+
+    print("Garra encontrada na porta F")
+
+except OSError:
+
+    print("ERRO: nada ligado na porta F")
+    print("Confira o cabo antes de seguir.")
+
+    raise
 
 
-VELOCIDADE_GARRA = 300
 ABERTURA_GARRA = 90
 FORCA_GARRA = 40
-
-
-def calibrar_garra():
-
-    print("Calibrando garra...")
-
-    motor_garra.run_until_stalled(
-        -VELOCIDADE_GARRA,
-        then=Stop.COAST,
-        duty_limit=FORCA_GARRA
-    )
-
-    motor_garra.reset_angle(0)
-
-    wait(200)
-
-    print("Garra calibrada.")
-
-
-def abrir_garra():
-
-    print("Abrindo garra...")
-
-    motor_garra.run_target(
-        VELOCIDADE_GARRA,
-        ABERTURA_GARRA
-    )
-
-    motor_garra.stop()
+TEMPO_LIMITE_GARRA = 3000
 
 
 def fechar_garra():
 
     print("Fechando garra...")
 
-    motor_garra.run_until_stalled(
-        -VELOCIDADE_GARRA,
-        then=Stop.HOLD,
-        duty_limit=FORCA_GARRA
-    )
+    relogio = StopWatch()
+
+    motor_garra.dc(-FORCA_GARRA)
+
+    while relogio.time() < TEMPO_LIMITE_GARRA:
+
+        parou = abs(motor_garra.speed()) < 30
+
+        if relogio.time() > 300 and parou:
+            break
+
+        wait(10)
+
+    motor_garra.hold()
+
+    print("Fechou em:", motor_garra.angle())
+
+
+def abrir_garra():
+
+    print("Abrindo garra...")
+
+    relogio = StopWatch()
+
+    motor_garra.dc(FORCA_GARRA)
+
+    while relogio.time() < TEMPO_LIMITE_GARRA:
+
+        if motor_garra.angle() >= ABERTURA_GARRA:
+            break
+
+        parou = abs(motor_garra.speed()) < 30
+
+        if relogio.time() > 300 and parou:
+            break
+
+        wait(10)
+
+    motor_garra.stop()
+
+    print("Abriu em:", motor_garra.angle())
+
+
+def calibrar_garra():
+
+    print("Calibrando garra...")
+
+    fechar_garra()
+
+    motor_garra.reset_angle(0)
+
+    motor_garra.stop()
+
+    wait(200)
+
+    print("Garra calibrada.")
 
 
 # ==========================
@@ -82,5 +121,7 @@ for i in range(3):
     wait(1000)
 
 motor_garra.stop()
+
+hub.light.on(Color.BLUE)
 
 print("TESTE DA GARRA TERMINADO")
