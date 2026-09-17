@@ -263,6 +263,23 @@ andar(60)
 
 
 # ==========================
+# 5 - PEGAR O OBJETO
+# ==========================
+# Se a garra tiver que fechar em
+# outro ponto, mova esta chamada
+# de lugar (ela e so uma linha).
+
+motor_a.stop()
+motor_b.stop()
+
+wait(500)
+
+fechar_garra()
+
+wait(500)
+
+
+# ==========================
 # FIM DO PERCURSO 1
 # ==========================
 
@@ -278,14 +295,14 @@ wait(1000)
 #                    PERCURSO DE VOLTA
 # ==========================================================
 
-# 5 - RÉ 25 CM
+# 6 - RÉ 50 CM
 
-print("Dando re 25 cm...")
+print("Dando re 50 cm...")
 
 re(50)
 
 
-# 6 - PARAR 1 SEGUNDO
+# 7 - PARAR 1 SEGUNDO
 
 motor_a.stop()
 motor_b.stop()
@@ -293,15 +310,15 @@ motor_b.stop()
 wait(1000)
 
 
-# 7 - GIRAR 85° PARA ESQUERDA
+# 8 - GIRAR 90° PARA ESQUERDA
 # CORRIGIDO
 
-print("Girando 85 graus para esquerda...")
+print("Girando 90 graus para esquerda...")
 
 girar_esquerda(90)
 
 
-# 8 - ANDAR 2,10 METROS
+# 9 - ANDAR 2,10 METROS
 
 print("Andando 2,10 metros de volta...")
 
@@ -314,6 +331,17 @@ andar(210)
 
 motor_a.stop()
 motor_b.stop()
+
+
+# ==========================
+# SOLTAR O OBJETO
+# ==========================
+
+wait(500)
+
+abrir_garra()
+
+wait(500)
 
 soltar_garra()
 
