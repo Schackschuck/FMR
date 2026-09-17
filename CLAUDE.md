@@ -27,9 +27,26 @@ parciais.
 |---|---|
 | A | Motor de tração (esquerda) |
 | B | Motor de tração (direita) |
-| F | Motor da garra |
+| D | Motor da garra |
 
-`motor_a` gira invertido em relação a `motor_b` para o robô andar reto.
+O motor esquerdo é criado com `Direction.COUNTERCLOCKWISE`, para que valor
+positivo signifique "para frente" nos dois — é o que o `DriveBase` espera.
+
+## Tração: sempre DriveBase com giroscópio
+
+Nada de controlar `motor_esquerdo` e `motor_direito` separados para andar.
+A tração é sempre:
+
+```python
+robo = DriveBase(motor_esquerdo, motor_direito,
+                 wheel_diameter=DIAMETRO_RODA, axle_track=DISTANCIA_RODAS)
+robo.use_gyro(True)
+```
+
+- `robo.straight(mm)` anda reto; negativo dá ré
+- `robo.turn(graus)` gira; **negativo = esquerda**, positivo = direita
+- Medidas do robô em **milímetros** (o `DriveBase` usa mm)
+- Antes de andar, esperar `hub.imu.ready()` com o robô parado
 
 ## Arquivos
 

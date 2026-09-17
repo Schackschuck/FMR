@@ -8,7 +8,7 @@ hub = PrimeHub()
 
 
 # ==========================================================
-#              TESTE SO DA GARRA - PORTA F
+#              TESTE SO DA GARRA - PORTA D
 # ==========================================================
 # Este programa NAO anda. So mexe na
 # garra, para achar o sentido certo
@@ -27,9 +27,9 @@ print("==============================")
 # ==========================
 # Se a garra ABRIR quando deveria
 # FECHAR, troque a linha por:
-# Motor(Port.F, Direction.COUNTERCLOCKWISE)
+# Motor(Port.D, Direction.COUNTERCLOCKWISE)
 
-motor_garra = Motor(Port.F)
+motor_garra = Motor(Port.D)
 
 
 # ==========================

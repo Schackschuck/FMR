@@ -20,11 +20,15 @@ print("PROGRAMA INICIADO")
 
 
 # ==========================
-# MOTORES
+# MOTORES DA TRACAO
 # ==========================
+# O motor da ESQUERDA e invertido
+# para que os dois andem para
+# frente com valor positivo.
+# Isso e o que o DriveBase espera.
 
-motor_a = Motor(Port.A)
-motor_b = Motor(Port.B)
+motor_esquerdo = Motor(Port.A, Direction.COUNTERCLOCKWISE)
+motor_direito = Motor(Port.B)
 
 
 # ==========================
@@ -32,25 +36,32 @@ motor_b = Motor(Port.B)
 # ==========================
 # Se a garra abrir quando deveria
 # fechar, troque para:
-# Motor(Port.F, Direction.COUNTERCLOCKWISE)
+# Motor(Port.D, Direction.COUNTERCLOCKWISE)
 
-motor_garra = Motor(Port.F)
+motor_garra = Motor(Port.D)
 
 
 # ==========================
-# MEDIDAS
+# MEDIDAS DO ROBO
 # ==========================
+# ATENCAO: em MILIMETROS, que e o
+# que o DriveBase usa.
 
-DIAMETRO_RODA = 5.5       # cm
+# Diametro da roda
+DIAMETRO_RODA = 55        # mm
+
+# Distancia de UM CENTRO DE RODA
+# ate o outro. MEÇA no seu robo.
+DISTANCIA_RODAS = 112     # mm
 
 
 # ==========================
 # VELOCIDADES
 # ==========================
 
-VELOCIDADE = 400
-VELOCIDADE_GIRO = 200
-VELOCIDADE_GARRA = 300
+VELOCIDADE_RETA = 200     # mm por segundo
+VELOCIDADE_GIRO = 100     # graus por segundo
+VELOCIDADE_GARRA = 300    # graus por segundo
 
 
 # ==========================
@@ -63,27 +74,60 @@ ABERTURA_GARRA = 90
 
 
 # ==========================
+# O ROBO
+# ==========================
+# O DriveBase controla os dois
+# motores juntos. Ele iguala as
+# rodas sozinho, entao o robo
+# anda reto.
+
+robo = DriveBase(
+    motor_esquerdo,
+    motor_direito,
+    wheel_diameter=DIAMETRO_RODA,
+    axle_track=DISTANCIA_RODAS
+)
+
+
+# ==========================
+# GIROSCOPIO LIGADO
+# ==========================
+# Esta linha e a que segura a linha
+# reta de verdade: o robo mede o
+# proprio desvio e corrige enquanto
+# anda.
+
+robo.use_gyro(True)
+
+
+robo.settings(
+    straight_speed=VELOCIDADE_RETA,
+    turn_rate=VELOCIDADE_GIRO
+)
+
+
+# ==========================
+# ESPERAR O GIROSCOPIO
+# ==========================
+# NAO mexa no robo agora.
+
+print("Preparando giroscopio...")
+
+while not hub.imu.ready():
+    wait(10)
+
+hub.imu.reset_heading(0)
+
+print("Giroscopio pronto.")
+
+
+# ==========================
 # FUNÇÃO PARA ANDAR PARA FRENTE
 # ==========================
 
 def andar(distancia_cm):
 
-    circunferencia = 3.14159265 * DIAMETRO_RODA
-
-    graus_motor = (
-        distancia_cm / circunferencia
-    ) * 360
-
-    motor_a.run_angle(
-        -VELOCIDADE,
-        graus_motor,
-        wait=False
-    )
-
-    motor_b.run_angle(
-        VELOCIDADE,
-        graus_motor
-    )
+    robo.straight(distancia_cm * 10)
 
 
 # ==========================
@@ -92,60 +136,35 @@ def andar(distancia_cm):
 
 def re(distancia_cm):
 
-    circunferencia = 3.14159265 * DIAMETRO_RODA
-
-    graus_motor = (
-        distancia_cm / circunferencia
-    ) * 360
-
-    motor_a.run_angle(
-        VELOCIDADE,
-        graus_motor,
-        wait=False
-    )
-
-    motor_b.run_angle(
-        -VELOCIDADE,
-        graus_motor
-    )
+    robo.straight(-distancia_cm * 10)
 
 
 # ==========================
 # GIRO PARA A ESQUERDA
-# COM GIROSCÓPIO
 # ==========================
+# No Pybricks, angulo NEGATIVO
+# gira para a esquerda.
 
 def girar_esquerda(angulo):
 
-    print("Zerando giroscopio...")
-
-    hub.imu.reset_heading(0)
-
-    wait(200)
-
     print("Girando esquerda:", angulo)
 
-    while True:
+    robo.turn(-angulo)
 
-        heading = hub.imu.heading()
+    print("Angulo do hub:", hub.imu.heading())
 
-        print("Angulo:", heading)
 
-        motor_a.run(VELOCIDADE_GIRO)
-        motor_b.run(VELOCIDADE_GIRO)
+# ==========================
+# GIRO PARA A DIREITA
+# ==========================
 
-        if abs(heading) >= angulo:
-            break
+def girar_direita(angulo):
 
-        wait(5)
+    print("Girando direita:", angulo)
 
-    motor_a.stop()
-    motor_b.stop()
+    robo.turn(angulo)
 
-    wait(200)
-
-    print("Giro terminado.")
-    print("Angulo final:", hub.imu.heading())
+    print("Angulo do hub:", hub.imu.heading())
 
 
 # ==========================
@@ -216,15 +235,12 @@ andar(210)
 
 # 2 - PARAR 1 SEGUNDO
 
-motor_a.stop()
-motor_b.stop()
+robo.stop()
 
 wait(1000)
 
 
 # 3 - GIRAR 85° PARA ESQUERDA
-
-print("Girando 85 graus para esquerda...")
 
 girar_esquerda(85)
 
@@ -243,8 +259,7 @@ andar(60)
 # outro ponto, mova esta chamada
 # de lugar (ela e so uma linha).
 
-motor_a.stop()
-motor_b.stop()
+robo.stop()
 
 wait(500)
 
@@ -256,9 +271,6 @@ wait(500)
 # ==========================
 # FIM DO PERCURSO 1
 # ==========================
-
-motor_a.stop()
-motor_b.stop()
 
 print("PERCURSO 1 TERMINADO")
 
@@ -278,15 +290,12 @@ re(50)
 
 # 7 - PARAR 1 SEGUNDO
 
-motor_a.stop()
-motor_b.stop()
+robo.stop()
 
 wait(1000)
 
 
 # 8 - GIRAR 90° PARA ESQUERDA
-
-print("Girando 90 graus para esquerda...")
 
 girar_esquerda(90)
 
@@ -302,8 +311,7 @@ andar(210)
 # FIM
 # ==========================
 
-motor_a.stop()
-motor_b.stop()
+robo.stop()
 
 
 # ==========================
