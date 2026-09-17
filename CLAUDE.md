@@ -52,6 +52,7 @@ robo.use_gyro(True)
 
 - `spike4.py` — percurso completo com a garra
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
+- `teste_rapido.py` — anda 10 cm e abre a garra 30°, para conferir medidas
 
 ## Estilo do código
 
