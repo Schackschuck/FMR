@@ -75,4 +75,11 @@ abrir e negativo para fechar.
 
 ## Sinal visual
 
-Luz e bip no início: vermelho = rodando, verde = andando, azul = terminou.
+Só luz, **sem bipe**: vermelho = rodando, verde = andando, azul = terminou.
+Não usar `hub.speaker.beep()`.
+
+## Garra
+
+O motor da garra é criado com `Direction.COUNTERCLOCKWISE`, porque o sentido
+está invertido no robô. Com isso, `run_angle` positivo continua sendo **abrir**
+e negativo **fechar**.

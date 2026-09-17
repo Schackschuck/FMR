@@ -10,11 +10,10 @@ hub = PrimeHub()
 # ==========================
 # SINAL DE INICIO
 # ==========================
-# Luz VERMELHA + bip = o programa
+# Luz VERMELHA = o programa
 # esta rodando
 
 hub.light.on(Color.RED)
-hub.speaker.beep(500, 200)
 
 print("PROGRAMA INICIADO")
 
@@ -34,11 +33,11 @@ motor_direito = Motor(Port.B)
 # ==========================
 # MOTOR DA GARRA
 # ==========================
-# Se a garra abrir quando deveria
-# fechar, troque para:
-# Motor(Port.D, Direction.COUNTERCLOCKWISE)
+# O sentido esta invertido no robo,
+# por isso o COUNTERCLOCKWISE.
+# Assim positivo continua sendo ABRIR.
 
-motor_garra = Motor(Port.D)
+motor_garra = Motor(Port.D, Direction.COUNTERCLOCKWISE)
 
 
 # ==========================

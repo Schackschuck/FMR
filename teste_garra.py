@@ -15,7 +15,6 @@ hub = PrimeHub()
 # e a abertura certa.
 
 hub.light.on(Color.RED)
-hub.speaker.beep(500, 200)
 
 print("==============================")
 print("TESTE DA GARRA")
@@ -25,11 +24,11 @@ print("==============================")
 # ==========================
 # MOTOR DA GARRA
 # ==========================
-# Se a garra ABRIR quando deveria
-# FECHAR, troque a linha por:
-# Motor(Port.D, Direction.COUNTERCLOCKWISE)
+# O sentido esta invertido no robo,
+# por isso o COUNTERCLOCKWISE.
+# Assim positivo continua sendo ABRIR.
 
-motor_garra = Motor(Port.D)
+motor_garra = Motor(Port.D, Direction.COUNTERCLOCKWISE)
 
 
 # ==========================

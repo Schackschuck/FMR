@@ -17,7 +17,6 @@ hub = PrimeHub()
 # robo.
 
 hub.light.on(Color.RED)
-hub.speaker.beep(500, 200)
 
 print("TESTE RAPIDO INICIADO")
 
@@ -34,7 +33,7 @@ motor_direito = Motor(Port.B)
 # MOTOR DA GARRA
 # ==========================
 
-motor_garra = Motor(Port.D)
+motor_garra = Motor(Port.D, Direction.COUNTERCLOCKWISE)
 
 
 # ==========================
