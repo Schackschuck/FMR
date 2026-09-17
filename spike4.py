@@ -40,6 +40,14 @@ motor_direito = Motor(Port.B)
 motor_garra = Motor(Port.D, Direction.COUNTERCLOCKWISE)
 
 
+# A posicao em que a garra esta
+# AGORA vale como angulo ZERO.
+# Deixe a garra fechada antes de
+# iniciar o programa.
+
+motor_garra.reset_angle(0)
+
+
 # ==========================
 # MEDIDAS DO ROBO
 # ==========================

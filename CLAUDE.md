@@ -83,3 +83,9 @@ Não usar `hub.speaker.beep()`.
 O motor da garra é criado com `Direction.COUNTERCLOCKWISE`, porque o sentido
 está invertido no robô. Com isso, `run_angle` positivo continua sendo **abrir**
 e negativo **fechar**.
+
+Logo depois de criar o motor vem `motor_garra.reset_angle(0)`: a posição em que
+a garra está ao iniciar o programa passa a valer como ângulo zero. Por isso a
+garra deve estar **fechada** antes de rodar qualquer programa.
+
+`ABERTURA_GARRA = 20` graus.
