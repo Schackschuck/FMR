@@ -157,8 +157,8 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
   `DISTANCIA_RODAS` estão em `percurso1.py`, `percurso2.py`, `percurso3.py` e
   `teste_rapido.py`; `ABERTURA_GARRA` e a `Direction` da garra estão em
   `percurso2.py`, `percurso3.py`, `teste_garra.py` e `teste_rapido.py`. Mudar em
-  um só deixa o projeto inconsistente — **sempre mudar em todos**. Um módulo compartilhado
-  resolveria, mas não foi verificado se o Pybricks Code do usuário suporta
+  um só deixa o projeto inconsistente — **sempre mudar em todos**. Um módulo
+  compartilhado resolveria, mas não foi verificado se o Pybricks Code do usuário suporta
   múltiplos arquivos no hub.
 - **`robo.turn()` negativo gira para a ESQUERDA**, positivo para a direita. É
   contraintuitivo; `girar_esquerda()` existe para esconder esse sinal.
