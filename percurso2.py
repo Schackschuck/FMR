@@ -13,9 +13,9 @@ hub = PrimeHub()
 # Segunda parte do percurso, com o
 # CANO PESADO na garra.
 #
-# Roda na METADE da velocidade e
-# FREIA DEVAGAR, para o robo nao
-# empinar quando para.
+# Anda rapido, mas FREIA DEVAGAR,
+# para o robo nao empinar quando
+# para com o peso do cano.
 #
 # Antes de rodar: cano na garra,
 # garra fechada, robo parado.
@@ -64,11 +64,13 @@ DISTANCIA_RODAS = 143     # mm
 # ==========================
 # VELOCIDADES
 # ==========================
-# METADE do percurso1, porque aqui
-# o robo carrega o cano.
+# Mesma velocidade do percurso1.
+# O que segura o cano nao e a
+# velocidade, e o freio suave
+# logo abaixo.
 
-VELOCIDADE_RETA = 100     # mm por segundo
-VELOCIDADE_GIRO = 50      # graus por segundo
+VELOCIDADE_RETA = 350     # mm por segundo
+VELOCIDADE_GIRO = 150     # graus por segundo
 VELOCIDADE_GARRA = 300    # graus por segundo
 
 
@@ -91,7 +93,7 @@ DESACELERACAO_GIRO = 100  # graus/s2
 # AJUSTES DA GARRA
 # ==========================
 
-ABERTURA_GARRA = 35
+ABERTURA_GARRA = 50
 
 
 # ==========================

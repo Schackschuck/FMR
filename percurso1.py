@@ -47,10 +47,10 @@ DISTANCIA_RODAS = 143     # mm
 # ==========================
 # VELOCIDADES
 # ==========================
-# Robo vazio: velocidade normal
+# Robo vazio: velocidade alta
 
-VELOCIDADE_RETA = 200     # mm por segundo
-VELOCIDADE_GIRO = 100     # graus por segundo
+VELOCIDADE_RETA = 350     # mm por segundo
+VELOCIDADE_GIRO = 150     # graus por segundo
 
 
 # ==========================

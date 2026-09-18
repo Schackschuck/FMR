@@ -56,28 +56,29 @@ Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
 O percurso é dividido em dois programas, rodados em sequência pelo usuário. A
 divisão existe porque o cano pesado é colocado na garra entre os dois.
 
-- `percurso1.py` — passos 1 a 7, robô **vazio**, velocidade normal
-- `percurso2.py` — passos 9 a 26, robô **com o cano**, metade da velocidade e
+- `percurso1.py` — passos 1 a 7, robô **vazio**
+- `percurso2.py` — passos 9 a 26, robô **com o cano**, mesma velocidade mas com
   freio suave
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 
-## Carga: percurso2 anda devagar e freia devagar
+## Carga: percurso2 freia devagar
 
-Com o cano na garra, frear brusco faz o robô empinar para frente. Por isso o
-`percurso2.py` usa metade da velocidade do `percurso1.py` e freio suave:
+Com o cano na garra, frear brusco faz o robô empinar para frente. O que resolve
+é a **desaceleração**, não a velocidade — os dois programas andam a 350 mm/s, e
+só o `percurso2.py` amortece o freio:
 
 ```python
 robo.settings(
-    straight_speed=100,                    # metade de 200
+    straight_speed=350,
     straight_acceleration=(250, 60),       # (acelera normal, freia devagar)
-    turn_rate=50,                          # metade de 100
+    turn_rate=150,
     turn_acceleration=(300, 100),
 )
 ```
 
-O segundo valor da tupla é a **desaceleração** — é ele que resolve a empinada.
-Acelerar continua normal.
+O segundo valor de cada tupla é a desaceleração. Se voltar a empinar, **baixar
+esse segundo valor** é o ajuste certo — não a velocidade.
 
 ## Estilo do código
 
@@ -114,4 +115,4 @@ Logo depois de criar o motor vem `motor_garra.reset_angle(0)`: a posição em qu
 a garra está ao iniciar o programa passa a valer como ângulo zero. Por isso a
 garra deve estar **fechada** antes de rodar qualquer programa.
 
-`ABERTURA_GARRA = 35` graus.
+`ABERTURA_GARRA = 50` graus.

@@ -67,7 +67,7 @@ VELOCIDADE_GARRA = 300    # graus por segundo
 # ==========================
 
 DISTANCIA_TESTE = 10      # cm
-ABERTURA_GARRA = 35       # graus
+ABERTURA_GARRA = 50       # graus
 
 
 # ==========================
