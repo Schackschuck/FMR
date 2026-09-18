@@ -60,11 +60,11 @@ Code.
   solta e volta.
   **`percurso3.py`** — passos 17 a 26: gira 180°, leva o segundo cano, solta e
   volta. Os dois têm a mesma configuração; só o trecho do percurso difere.
-  - Linhas 68–72: velocidades pela metade (100 mm/s, 50 graus/s)
-  - Linhas 82–89: `ACELERACAO_RETA`/`DESACELERACAO_RETA` e os equivalentes de
-    giro — é aqui que se ajusta a empinada
-  - Linhas 113–126: `robo.settings()` com as tuplas `(acelerar, desacelerar)`
-  - Passo 13 e passo 22: as duas aberturas da garra
+  Nos dois, na mesma ordem: velocidades (350 mm/s, 150 graus/s), depois
+  `ACELERACAO_RETA`/`DESACELERACAO_RETA` e os equivalentes de giro — é aí que se
+  ajusta a empinada — e o `robo.settings()` com as tuplas
+  `(acelerar, desacelerar)`. Cada um abre a garra uma vez: passo 13 no
+  `percurso2.py`, passo 22 no `percurso3.py`.
 
 - **`teste_rapido.py`** (150 linhas) — anda 10 cm e abre a garra. Programa para
   validar medidas e sentido antes de rodar o percurso. Imprime o desvio do rumo
