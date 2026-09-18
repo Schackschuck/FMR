@@ -53,9 +53,31 @@ Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
 
 ## Arquivos
 
-- `spike4.py` — percurso completo com a garra
+O percurso é dividido em dois programas, rodados em sequência pelo usuário. A
+divisão existe porque o cano pesado é colocado na garra entre os dois.
+
+- `percurso1.py` — passos 1 a 7, robô **vazio**, velocidade normal
+- `percurso2.py` — passos 8 a 26, robô **com o cano**, metade da velocidade e
+  freio suave
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
+
+## Carga: percurso2 anda devagar e freia devagar
+
+Com o cano na garra, frear brusco faz o robô empinar para frente. Por isso o
+`percurso2.py` usa metade da velocidade do `percurso1.py` e freio suave:
+
+```python
+robo.settings(
+    straight_speed=100,                    # metade de 200
+    straight_acceleration=(250, 60),       # (acelera normal, freia devagar)
+    turn_rate=50,                          # metade de 100
+    turn_acceleration=(300, 100),
+)
+```
+
+O segundo valor da tupla é a **desaceleração** — é ele que resolve a empinada.
+Acelerar continua normal.
 
 ## Estilo do código
 

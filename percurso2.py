@@ -7,24 +7,32 @@ from pybricks.tools import wait, StopWatch
 hub = PrimeHub()
 
 
+# ==========================================================
+#        PERCURSO 2 - PASSOS 8 A 26 (COM O CANO)
+# ==========================================================
+# Segunda parte do percurso, com o
+# CANO PESADO na garra.
+#
+# Roda na METADE da velocidade e
+# FREIA DEVAGAR, para o robo nao
+# empinar quando para.
+#
+# Antes de rodar: cano na garra,
+# garra fechada, robo parado.
+
+
 # ==========================
 # SINAL DE INICIO
 # ==========================
-# Luz VERMELHA = o programa
-# esta rodando
 
 hub.light.on(Color.RED)
 
-print("PROGRAMA INICIADO")
+print("PERCURSO 2 - INICIANDO")
 
 
 # ==========================
 # MOTORES DA TRACAO
 # ==========================
-# O motor da ESQUERDA e invertido
-# para que os dois andem para
-# frente com valor positivo.
-# Isso e o que o DriveBase espera.
 
 motor_esquerdo = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 motor_direito = Motor(Port.B)
@@ -33,17 +41,13 @@ motor_direito = Motor(Port.B)
 # ==========================
 # MOTOR DA GARRA
 # ==========================
-# Depois da mudanca na estrutura, o
-# sentido voltou ao normal: CLOCKWISE.
-# Positivo continua sendo ABRIR.
 
 motor_garra = Motor(Port.D, Direction.CLOCKWISE)
 
 
 # A posicao em que a garra esta
 # AGORA vale como angulo ZERO.
-# Deixe a garra fechada antes de
-# iniciar o programa.
+# Ela deve estar fechada no cano.
 
 motor_garra.reset_angle(0)
 
@@ -51,42 +55,48 @@ motor_garra.reset_angle(0)
 # ==========================
 # MEDIDAS DO ROBO
 # ==========================
-# ATENCAO: em MILIMETROS, que e o
-# que o DriveBase usa.
+# Em MILIMETROS
 
-# Diametro da roda
 DIAMETRO_RODA = 55        # mm
-
-# Distancia de UM CENTRO DE RODA
-# ate o outro, medida no robo.
 DISTANCIA_RODAS = 143     # mm
 
 
 # ==========================
 # VELOCIDADES
 # ==========================
+# METADE do percurso1, porque aqui
+# o robo carrega o cano.
 
-VELOCIDADE_RETA = 200     # mm por segundo
-VELOCIDADE_GIRO = 100     # graus por segundo
+VELOCIDADE_RETA = 100     # mm por segundo
+VELOCIDADE_GIRO = 50      # graus por segundo
 VELOCIDADE_GARRA = 300    # graus por segundo
+
+
+# ==========================
+# ACELERACAO E FREIO
+# ==========================
+# Acelera normal, mas FREIA DEVAGAR.
+# E a frenagem brusca que joga o
+# peso do cano para frente e faz o
+# robo empinar.
+
+ACELERACAO_RETA = 250     # mm/s2
+DESACELERACAO_RETA = 60   # mm/s2
+
+ACELERACAO_GIRO = 300     # graus/s2
+DESACELERACAO_GIRO = 100  # graus/s2
 
 
 # ==========================
 # AJUSTES DA GARRA
 # ==========================
 
-# Quanto o motor gira para abrir
-# ou fechar a garra (em graus)
 ABERTURA_GARRA = 35
 
 
 # ==========================
 # O ROBO
 # ==========================
-# O DriveBase controla os dois
-# motores juntos. Ele iguala as
-# rodas sozinho, entao o robo
-# anda reto.
 
 robo = DriveBase(
     motor_esquerdo,
@@ -95,21 +105,23 @@ robo = DriveBase(
     axle_track=DISTANCIA_RODAS
 )
 
-
-# ==========================
-# GIROSCOPIO LIGADO
-# ==========================
-# Esta linha e a que segura a linha
-# reta de verdade: o robo mede o
-# proprio desvio e corrige enquanto
-# anda.
-
 robo.use_gyro(True)
 
 
+# A tupla e (acelerar, desacelerar).
+# O segundo valor e o freio.
+
 robo.settings(
     straight_speed=VELOCIDADE_RETA,
-    turn_rate=VELOCIDADE_GIRO
+    straight_acceleration=(
+        ACELERACAO_RETA,
+        DESACELERACAO_RETA
+    ),
+    turn_rate=VELOCIDADE_GIRO,
+    turn_acceleration=(
+        ACELERACAO_GIRO,
+        DESACELERACAO_GIRO
+    )
 )
 
 
@@ -220,76 +232,9 @@ def soltar_garra():
 #                      PERCURSO
 # ==========================================================
 
-# Luz VERDE = comecou a andar
-
 hub.light.on(Color.GREEN)
 
-print("PERCURSO INICIADO")
-
-
-# ==========================
-# 1 - ANDAR 2,10 METROS
-# ==========================
-
-print("1) Andando 2,10 metros...")
-
-andar(210)
-
-
-# ==========================
-# 2 - CURVA 90° ESQUERDA
-# ==========================
-
-print("2) Curva 90 graus esquerda")
-
-girar_esquerda(90)
-
-
-# ==========================
-# 3 - ANDAR 60 CM
-# ==========================
-
-print("3) Andando 60 cm...")
-
-andar(60)
-
-
-# ==========================
-# 4 - PARAR 1 SEGUNDO
-# ==========================
-
-print("4) Parado 1 segundo")
-
-robo.stop()
-
-wait(1000)
-
-
-# ==========================
-# 5 - RÉ 37 CM
-# ==========================
-
-print("5) Dando re 37 cm...")
-
-re(37)
-
-
-# ==========================
-# 6 - CURVA 90° ESQUERDA
-# ==========================
-
-print("6) Curva 90 graus esquerda")
-
-girar_esquerda(90)
-
-
-# ==========================
-# 7 - ANDAR 2,10 METROS
-# ==========================
-
-print("7) Andando 2,10 metros...")
-
-andar(210)
+print("PERCURSO 2 INICIADO")
 
 
 # ==========================
@@ -351,10 +296,10 @@ abrir_garra()
 
 
 # ==========================
-# 14 - VOLTAR 5 CM
+# 14 - RÉ 5 CM
 # ==========================
 
-print("14) Voltando 5 cm...")
+print("14) Dando re 5 cm...")
 
 re(5)
 
@@ -468,13 +413,10 @@ robo.stop()
 
 soltar_garra()
 
-
-# Luz AZUL = terminou tudo
-
 hub.light.on(Color.BLUE)
 
 print("==========================")
-print("PERCURSO COMPLETO")
+print("PERCURSO 2 TERMINADO")
 print("==========================")
 
 wait(1000)
