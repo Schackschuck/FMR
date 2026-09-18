@@ -32,7 +32,7 @@ Code.
 
 **Escrito e revisado, mas NÃO testado no robô:**
 
-- `percurso1.py` e `percurso2.py` — a divisão em dois programas é desta sessão
+- `percurso1.py` e `percurso2.py` — a divisão em dois programas é recente
 - A metade de velocidade e o freio suave do `percurso2.py`
   (`straight_acceleration=(250, 60)`) — os valores 250 e 60 são um ponto de
   partida, não medidos
@@ -58,7 +58,7 @@ Code.
   normal (200 mm/s, 100 graus/s). Não declara o motor da garra, porque não usa.
   Termina no ponto onde o cano é colocado na garra e imprime isso no console.
 
-- **`percurso2.py`** (422 linhas) — passos 8 a 26, robô **com o cano**.
+- **`percurso2.py`** — passos 9 a 26, robô **com o cano**.
   - Linhas 68–72: velocidades pela metade (100 mm/s, 50 graus/s)
   - Linhas 82–89: `ACELERACAO_RETA`/`DESACELERACAO_RETA` e os equivalentes de
     giro — é aqui que se ajusta a empinada
@@ -75,9 +75,9 @@ Code.
 
 ## 4. Decisões tomadas e o porquê
 
-**Percurso dividido em dois programas, cortando entre os passos 7 e 8.** O corte
+**Percurso dividido em dois programas, cortando depois do passo 7.** O corte
 foi pedido pelo usuário: o cano é colocado na garra nesse ponto, então a partir
-do passo 8 o robô está carregado e precisa de outra configuração de movimento.
+do passo 9 o robô está carregado e precisa de outra configuração de movimento.
 Dois programas separados são mais simples do que um só com velocidades trocadas
 no meio, e permitem repetir uma das partes sem rodar a outra. O custo é que o
 giroscópio é zerado no início de cada programa, então as curvas do `percurso2`
@@ -189,7 +189,7 @@ Ordem do percurso completo:
 
 1. `percurso1.py` — robô vazio, termina imprimindo "Coloque o cano na garra"
 2. Colocar o cano na garra, **sem mover o robô de lugar**
-3. `percurso2.py` — os 10 s do passo 8 dão tempo de sair de perto
+3. `percurso2.py` — sai andando assim que roda, sem pausa inicial
 
 Para calibrar antes: `teste_garra.py` (só a garra) e `teste_rapido.py` (10 cm).
 

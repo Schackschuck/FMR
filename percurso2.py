@@ -8,7 +8,7 @@ hub = PrimeHub()
 
 
 # ==========================================================
-#        PERCURSO 2 - PASSOS 8 A 26 (COM O CANO)
+#        PERCURSO 2 - PASSOS 9 A 26 (COM O CANO)
 # ==========================================================
 # Segunda parte do percurso, com o
 # CANO PESADO na garra.
@@ -235,17 +235,6 @@ def soltar_garra():
 hub.light.on(Color.GREEN)
 
 print("PERCURSO 2 INICIADO")
-
-
-# ==========================
-# 8 - PARAR 10 SEGUNDOS
-# ==========================
-
-print("8) Parado 10 segundos")
-
-robo.stop()
-
-wait(10000)
 
 
 # ==========================

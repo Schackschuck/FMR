@@ -57,7 +57,7 @@ O percurso é dividido em dois programas, rodados em sequência pelo usuário. A
 divisão existe porque o cano pesado é colocado na garra entre os dois.
 
 - `percurso1.py` — passos 1 a 7, robô **vazio**, velocidade normal
-- `percurso2.py` — passos 8 a 26, robô **com o cano**, metade da velocidade e
+- `percurso2.py` — passos 9 a 26, robô **com o cano**, metade da velocidade e
   freio suave
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
