@@ -8,10 +8,10 @@ hub = PrimeHub()
 
 
 # ==========================================================
-#     PERCURSO 3 - PASSOS 17 A 26 (SEGUNDO CANO)
+#     PERCURSO 3 - PASSOS 19 A 26 (SEGUNDO CANO)
 # ==========================================================
-# Gira 180 graus, leva o SEGUNDO
-# cano, solta ele e volta.
+# Leva o SEGUNDO cano, solta ele e
+# volta.
 #
 # Anda rapido, mas FREIA DEVAGAR,
 # para o robo nao empinar quando
@@ -238,26 +238,6 @@ def soltar_garra():
 hub.light.on(Color.GREEN)
 
 print("PERCURSO 3 INICIADO")
-
-
-# ==========================
-# 17 - GIRO DE 180° DIREITA
-# ==========================
-
-print("17) Giro de 180 graus direita")
-
-girar_direita(180)
-
-
-# ==========================
-# 18 - PARAR 10 SEGUNDOS
-# ==========================
-
-print("18) Parado 10 segundos")
-
-robo.stop()
-
-wait(10000)
 
 
 # ==========================

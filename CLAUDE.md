@@ -60,7 +60,7 @@ duas entregas.
 - `percurso1.py` — passos 1 a 7, robô **vazio**
 - `percurso2.py` — passos 9 a 16, retão de 88 cm, leva o **primeiro cano**,
   solta e volta
-- `percurso3.py` — passos 17 a 26, leva o **segundo cano**, solta e volta
+- `percurso3.py` — passos 19 a 26, leva o **segundo cano**, solta e volta
 
 Entre um programa e o outro: colocar o cano, fechar a garra nele **na mão** e
 não mover o robô de lugar. Cada programa zera o rumo do giroscópio e o ângulo da

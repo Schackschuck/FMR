@@ -5,9 +5,9 @@ Branch: `claude/spike4-pybricks-3u6336` · Último commit: `28ee77f Divide o per
 ## 1. Objetivo
 
 Programar um robô LEGO SPIKE Prime em Pybricks (MicroPython) para executar um
-percurso fixo de 26 passos, transportando um **cano pesado** numa garra
-motorizada. O robô anda distâncias medidas em centímetros, faz curvas de 90° e
-180° usando o giroscópio do hub, e abre a garra em dois pontos do percurso.
+percurso fixo, transportando **canos pesados** numa garra motorizada. O robô
+anda distâncias medidas em centímetros, faz curvas de 90° usando o giroscópio do
+hub, e abre a garra em dois pontos do percurso.
 
 O percurso roda em **três programas separados**, porque um cano é colocado na
 garra antes de cada uma das duas entregas (ver seção 4).
@@ -58,8 +58,7 @@ Code.
 
 - **`percurso2.py`** — passos 9 a 16: retão de 88 cm, leva o primeiro cano,
   solta e volta.
-  **`percurso3.py`** — passos 17 a 26: gira 180°, leva o segundo cano, solta e
-  volta. Os dois têm a mesma configuração; só o trecho do percurso difere.
+  **`percurso3.py`** — passos 19 a 26: leva o segundo cano, solta e volta. Os dois têm a mesma configuração; só o trecho do percurso difere.
   Nos dois, na mesma ordem: velocidades (350 mm/s, 150 graus/s), depois
   `ACELERACAO_RETA`/`DESACELERACAO_RETA` e os equivalentes de giro — é aí que se
   ajusta a empinada — e o `robo.settings()` com as tuplas
@@ -138,8 +137,7 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
    de mexer na velocidade.
 4. **Confirmar que a garra abre para o lado certo** com o `Direction.CLOCKWISE`
    novo, depois da mudança de estrutura.
-5. **Conferir se as curvas de 90° e o giro de 180° fecham o ângulo** com
-   `DISTANCIA_RODAS = 143`.
+5. **Conferir se as curvas de 90° fecham o ângulo** com `DISTANCIA_RODAS = 143`.
 6. **Abrir PR, se o usuário pedir.** Nenhum PR foi aberto — o trabalho só foi
    commitado e enviado para a branch.
 
@@ -189,7 +187,7 @@ Ordem do percurso completo:
 2. Colocar o primeiro cano e fechar a garra nele, **sem mover o robô de lugar**
 3. `percurso2.py` — entrega o primeiro cano e volta
 4. Colocar o segundo cano e fechar a garra nele, sem mover o robô
-5. `percurso3.py` — gira 180°, entrega o segundo cano e volta
+5. `percurso3.py` — entrega o segundo cano e volta
 
 Para calibrar antes: `teste_garra.py` (só a garra) e `teste_rapido.py` (10 cm).
 
