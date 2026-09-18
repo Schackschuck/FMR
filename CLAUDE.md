@@ -53,20 +53,25 @@ Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
 
 ## Arquivos
 
-O percurso é dividido em dois programas, rodados em sequência pelo usuário. A
-divisão existe porque o cano pesado é colocado na garra entre os dois.
+O percurso é dividido em três programas, rodados em sequência pelo usuário. A
+divisão existe porque um cano pesado é colocado na garra antes de cada uma das
+duas entregas.
 
 - `percurso1.py` — passos 1 a 7, robô **vazio**
-- `percurso2.py` — passos 9 a 26, robô **com o cano**, mesma velocidade mas com
-  freio suave
+- `percurso2.py` — passos 9 a 16, leva o **primeiro cano**, solta e volta
+- `percurso3.py` — passos 17 a 26, leva o **segundo cano**, solta e volta
+
+Entre um programa e o outro: colocar o cano, fechar a garra nele **na mão** e
+não mover o robô de lugar. Cada programa zera o rumo do giroscópio e o ângulo da
+garra onde começa.
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 
-## Carga: percurso2 freia devagar
+## Carga: percurso2 e percurso3 freiam devagar
 
 Com o cano na garra, frear brusco faz o robô empinar para frente. O que resolve
-é a **desaceleração**, não a velocidade — os dois programas andam a 350 mm/s, e
-só o `percurso2.py` amortece o freio:
+é a **desaceleração**, não a velocidade — os três programas andam a 350 mm/s, e
+os dois que carregam cano amortecem o freio:
 
 ```python
 robo.settings(

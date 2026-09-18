@@ -9,14 +9,14 @@ percurso fixo de 26 passos, transportando um **cano pesado** numa garra
 motorizada. O robô anda distâncias medidas em centímetros, faz curvas de 90° e
 180° usando o giroscópio do hub, e abre a garra em dois pontos do percurso.
 
-O percurso roda em **dois programas separados**, porque o cano é colocado na
-garra no meio do caminho (ver seção 4).
+O percurso roda em **três programas separados**, porque um cano é colocado na
+garra antes de cada uma das duas entregas (ver seção 4).
 
 O usuário é quem roda os programas no robô físico — nenhum código deste
 repositório roda no ambiente de desenvolvimento, porque `pybricks` só existe
 dentro do hub. Todo teste é manual, no robô.
 
-O repositório não tem build, dependências nem testes automatizados. São quatro
+O repositório não tem build, dependências nem testes automatizados. São cinco
 programas Python independentes, cada um colado/baixado no hub pelo Pybricks
 Code.
 
@@ -32,7 +32,8 @@ Code.
 
 **Escrito e revisado, mas NÃO testado no robô:**
 
-- `percurso1.py` e `percurso2.py` — a divisão em dois programas é recente
+- `percurso1.py`, `percurso2.py` e `percurso3.py` — a divisão em três programas
+  é recente, assim como a velocidade de 350 mm/s e a garra em 50°
 - A metade de velocidade e o freio suave do `percurso2.py`
   (`straight_acceleration=(250, 60)`) — os valores 250 e 60 são um ponto de
   partida, não medidos
@@ -41,9 +42,6 @@ Code.
   curva foi executada depois disso
 - `DIAMETRO_RODA = 55` mm nunca foi validado com régua (seção 5, item 2)
 
-**Decisão pendente do usuário:**
-
-- A garra abre duas vezes e nunca fecha (seção 6)
 
 ## 3. Arquivos e trechos relevantes
 
@@ -58,7 +56,9 @@ Code.
   normal (200 mm/s, 100 graus/s). Não declara o motor da garra, porque não usa.
   Termina no ponto onde o cano é colocado na garra e imprime isso no console.
 
-- **`percurso2.py`** — passos 9 a 26, robô **com o cano**.
+- **`percurso2.py`** — passos 9 a 16: leva o primeiro cano, solta e volta.
+  **`percurso3.py`** — passos 17 a 26: gira 180°, leva o segundo cano, solta e
+  volta. Os dois têm a mesma configuração; só o trecho do percurso difere.
   - Linhas 68–72: velocidades pela metade (100 mm/s, 50 graus/s)
   - Linhas 82–89: `ACELERACAO_RETA`/`DESACELERACAO_RETA` e os equivalentes de
     giro — é aqui que se ajusta a empinada
@@ -75,14 +75,15 @@ Code.
 
 ## 4. Decisões tomadas e o porquê
 
-**Percurso dividido em dois programas, cortando depois do passo 7.** O corte
-foi pedido pelo usuário: o cano é colocado na garra nesse ponto, então a partir
-do passo 9 o robô está carregado e precisa de outra configuração de movimento.
-Dois programas separados são mais simples do que um só com velocidades trocadas
-no meio, e permitem repetir uma das partes sem rodar a outra. O custo é que o
-giroscópio é zerado no início de cada programa, então as curvas do `percurso2`
-são relativas à posição onde ele começa — se o robô for movido entre os dois
-programas, o rumo se perde.
+**Percurso dividido em três programas, cortando depois dos passos 7 e 16.** Os
+cortes foram pedidos pelo usuário e caem nos pontos onde um cano é colocado na
+garra. Programas separados são mais simples do que um só com pausas longas
+esperando o operador, e permitem repetir uma das partes sem rodar as outras.
+Dois efeitos colaterais: o giroscópio é zerado no início de cada programa, então
+as curvas são relativas a onde ele começa (não mover o robô entre os programas);
+e o ângulo da garra também é zerado, o que resolveu o problema antigo de a garra
+abrir duas vezes sem fechar — hoje cada programa abre uma vez, a partir da garra
+fechada na mão.
 
 **Acelera normal, freia devagar — não velocidade baixa em tudo.** O robô
 empinava ao **parar**, não ao andar: é a frenagem que joga o peso do cano para
@@ -124,19 +125,16 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
 
 ## 5. Pendências e próximos passos
 
-1. **Decidir o que fazer com a garra que abre duas vezes.** No `percurso2.py`
-   ela abre no passo 13 e abre **de novo** no passo 22, sem fechar no meio.
-   `run_angle` é relativo, então ela acaba 70° aberta e pode bater no fim do
-   curso. Três saídas foram apresentadas ao usuário e ele ainda não escolheu:
-   (a) `fechar_garra()` depois de cada abertura, (b) um `fechar_garra()` entre
-   os passos 13 e 22, (c) trocar `run_angle` por `run_target` nas funções da
-   garra, o que muda a convenção do `CLAUDE.md`.
+1. **Rodar os três programas em sequência no robô.** Nenhum deles foi testado
+   depois da divisão, da subida para 350 mm/s e da garra em 50°.
 2. **Rodar `teste_rapido.py` e medir com régua quanto o robô andou.** Se andou
    diferente de 10 cm, ajustar `DIAMETRO_RODA` proporcionalmente
    (`55 × pedido/medido`) em **todos** os arquivos que o declaram.
 3. **Rodar `percurso2.py` com o cano e ver se ainda empina.** Se empinar,
-   baixar `DESACELERACAO_RETA` (hoje 60) para 40 ou 30. Se ficar lento demais
-   para a competição, subir a velocidade antes de mexer no freio.
+   baixar `DESACELERACAO_RETA` (hoje 60) para 40 ou 30, nos dois programas que
+   carregam cano. A 350 mm/s com freio de 60 mm/s², a frenagem começa com quase
+   um metro de antecedência — se ficar lento demais, subir a desaceleração antes
+   de mexer na velocidade.
 4. **Confirmar que a garra abre para o lado certo** com o `Direction.CLOCKWISE`
    novo, depois da mudança de estrutura.
 5. **Conferir se as curvas de 90° e o giro de 180° fecham o ângulo** com
@@ -146,21 +144,20 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
 
 ## 6. Problemas conhecidos e armadilhas
 
-- **A garra abre duas vezes e nunca fecha** no `percurso2.py` (ver seção 5,
-  item 1). É o problema aberto mais importante.
-- **A garra tem que estar FECHADA no cano antes de rodar o `percurso2.py`.**
-  `motor_garra.reset_angle(0)` define a posição atual como zero.
+- **A garra tem que estar FECHADA no cano antes de rodar o `percurso2.py` e o
+  `percurso3.py`.** `motor_garra.reset_angle(0)` define a posição atual como
+  zero; o operador fecha a garra na mão entre os programas.
 - **O robô tem que estar PARADO no início de cada programa.** Os dois esperam
   `hub.imu.ready()`; mexer no robô nesse intervalo estraga a calibração do
   giroscópio e a linha reta sai torta.
-- **Não mover o robô entre o `percurso1.py` e o `percurso2.py`.** O
-  `percurso2.py` zera o rumo onde começa; girar o robô na mão ao colocar o cano
-  desloca todas as curvas seguintes.
-- **Constantes duplicadas em quatro arquivos.** `DIAMETRO_RODA` e
-  `DISTANCIA_RODAS` estão em `percurso1.py`, `percurso2.py` e
+- **Não mover o robô entre um programa e o próximo.** Cada um zera o rumo onde
+  começa; girar o robô na mão ao colocar o cano desloca todas as curvas
+  seguintes.
+- **Constantes duplicadas em cinco arquivos.** `DIAMETRO_RODA` e
+  `DISTANCIA_RODAS` estão em `percurso1.py`, `percurso2.py`, `percurso3.py` e
   `teste_rapido.py`; `ABERTURA_GARRA` e a `Direction` da garra estão em
-  `percurso2.py`, `teste_garra.py` e `teste_rapido.py`. Mudar em um só deixa o
-  projeto inconsistente — **sempre mudar em todos**. Um módulo compartilhado
+  `percurso2.py`, `percurso3.py`, `teste_garra.py` e `teste_rapido.py`. Mudar em
+  um só deixa o projeto inconsistente — **sempre mudar em todos**. Um módulo compartilhado
   resolveria, mas não foi verificado se o Pybricks Code do usuário suporta
   múltiplos arquivos no hub.
 - **`robo.turn()` negativo gira para a ESQUERDA**, positivo para a direita. É
@@ -187,9 +184,11 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
 
 Ordem do percurso completo:
 
-1. `percurso1.py` — robô vazio, termina imprimindo "Coloque o cano na garra"
-2. Colocar o cano na garra, **sem mover o robô de lugar**
-3. `percurso2.py` — sai andando assim que roda, sem pausa inicial
+1. `percurso1.py` — robô vazio, termina pedindo o cano
+2. Colocar o primeiro cano e fechar a garra nele, **sem mover o robô de lugar**
+3. `percurso2.py` — entrega o primeiro cano e volta
+4. Colocar o segundo cano e fechar a garra nele, sem mover o robô
+5. `percurso3.py` — gira 180°, entrega o segundo cano e volta
 
 Para calibrar antes: `teste_garra.py` (só a garra) e `teste_rapido.py` (10 cm).
 
@@ -202,7 +201,7 @@ não acender, o programa não iniciou — o problema não está no código.
 
 ```bash
 cd /home/user/FMR
-for f in percurso1.py percurso2.py teste_garra.py teste_rapido.py; do
+for f in percurso1.py percurso2.py percurso3.py teste_garra.py teste_rapido.py; do
   python3 -c "import ast; ast.parse(open('$f').read()); print('$f ok')"
 done
 ```

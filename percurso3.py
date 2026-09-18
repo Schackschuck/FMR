@@ -8,19 +8,18 @@ hub = PrimeHub()
 
 
 # ==========================================================
-#     PERCURSO 2 - PASSOS 9 A 16 (PRIMEIRO CANO)
+#     PERCURSO 3 - PASSOS 17 A 26 (SEGUNDO CANO)
 # ==========================================================
-# Leva o PRIMEIRO cano, solta ele e
-# volta para o ponto de partida.
+# Gira 180 graus, leva o SEGUNDO
+# cano, solta ele e volta.
 #
 # Anda rapido, mas FREIA DEVAGAR,
 # para o robo nao empinar quando
 # para com o peso do cano.
 #
 # Antes de rodar: cano na garra,
-# garra fechada no cano, robo parado.
-#
-# Depois disso, rode o percurso3.py.
+# garra fechada no cano, robo parado
+# no lugar onde o percurso2 terminou.
 
 
 # ==========================
@@ -29,7 +28,7 @@ hub = PrimeHub()
 
 hub.light.on(Color.RED)
 
-print("PERCURSO 2 - INICIANDO")
+print("PERCURSO 3 - INICIANDO")
 
 
 # ==========================
@@ -238,86 +237,95 @@ def soltar_garra():
 
 hub.light.on(Color.GREEN)
 
-print("PERCURSO 2 INICIADO")
+print("PERCURSO 3 INICIADO")
 
 
 # ==========================
-# 9 - ANDAR 100 CM
+# 17 - GIRO DE 180° DIREITA
 # ==========================
 
-print("9) Andando 100 cm...")
+print("17) Giro de 180 graus direita")
 
-andar(100)
+girar_direita(180)
 
 
 # ==========================
-# 10 - CURVA 90° DIREITA
+# 18 - PARAR 10 SEGUNDOS
 # ==========================
 
-print("10) Curva 90 graus direita")
+print("18) Parado 10 segundos")
+
+robo.stop()
+
+wait(10000)
+
+
+# ==========================
+# 19 - ANDAR 1,60 METROS
+# ==========================
+
+print("19) Andando 1,60 metros...")
+
+andar(160)
+
+
+# ==========================
+# 20 - CURVA 90° DIREITA
+# ==========================
+
+print("20) Curva 90 graus direita")
 
 girar_direita(90)
 
 
 # ==========================
-# 11 - ANDAR 5 CM
+# 21 - ANDAR 5 CM
 # ==========================
 
-print("11) Andando 5 cm...")
+print("21) Andando 5 cm...")
 
 andar(5)
 
 
 # ==========================
-# 12 - PARAR 1 SEGUNDO
-# ==========================
-
-print("12) Parado 1 segundo")
-
-robo.stop()
-
-wait(1000)
-
-
-# ==========================
-# 13 - SOLTAR O CANO
+# 22 - SOLTAR O CANO
 # ==========================
 # Abre a garra e deixa o cano.
 
-print("13) Abrindo a garra")
+print("22) Abrindo a garra")
 
 abrir_garra()
 
 
 # ==========================
-# 14 - RÉ 5 CM
+# 23 - RÉ 5 CM
 # ==========================
 
-print("14) Dando re 5 cm...")
+print("23) Dando re 5 cm...")
 
 re(5)
 
 
 # ==========================
-# 15 - CURVA 90° DIREITA
+# 24 - CURVA 90° DIREITA
 # ==========================
 
-print("15) Curva 90 graus direita")
+print("24) Curva 90 graus direita")
 
 girar_direita(90)
 
 
 # ==========================
-# 16 - VOLTAR 100 CM
+# 25 - VOLTAR 1,60 METROS
 # ==========================
 
-print("16) Voltando 100 cm...")
+print("25) Voltando 1,60 metros...")
 
-andar(100)
+andar(160)
 
 
 # ==========================
-# FIM DA PARTE 2
+# 26 - PARAR
 # ==========================
 
 robo.stop()
@@ -327,9 +335,7 @@ soltar_garra()
 hub.light.on(Color.BLUE)
 
 print("==========================")
-print("PERCURSO 2 TERMINADO")
-print("Feche a garra no proximo")
-print("cano e rode o percurso3.py")
+print("PERCURSO 3 TERMINADO")
 print("==========================")
 
 wait(1000)
