@@ -1,19 +1,22 @@
-# Handoff — FMR / Spike 4 (Pybricks) — 2026-09-17 21:42
+# Handoff — FMR / Spike 4 (Pybricks) — 2026-09-18 18:30
 
-Branch: `claude/spike4-pybricks-3u6336` · Último commit: `ab95723 Inverte a rotacao da garra apos mudanca na estrutura`
+Branch: `claude/spike4-pybricks-3u6336` · Último commit: `28ee77f Divide o percurso em dois programas e alivia o freio com carga`
 
 ## 1. Objetivo
 
 Programar um robô LEGO SPIKE Prime em Pybricks (MicroPython) para executar um
-percurso fixo de 17 passos com uma garra motorizada. O robô anda distâncias
-medidas em centímetros, faz curvas de 90° usando o giroscópio do hub e abre a
-garra em um ponto específico do percurso.
+percurso fixo de 26 passos, transportando um **cano pesado** numa garra
+motorizada. O robô anda distâncias medidas em centímetros, faz curvas de 90° e
+180° usando o giroscópio do hub, e abre a garra em dois pontos do percurso.
+
+O percurso roda em **dois programas separados**, porque o cano é colocado na
+garra no meio do caminho (ver seção 4).
 
 O usuário é quem roda os programas no robô físico — nenhum código deste
 repositório roda no ambiente de desenvolvimento, porque `pybricks` só existe
 dentro do hub. Todo teste é manual, no robô.
 
-O repositório não tem build, dependências nem testes automatizados. São três
+O repositório não tem build, dependências nem testes automatizados. São quatro
 programas Python independentes, cada um colado/baixado no hub pelo Pybricks
 Code.
 
@@ -21,82 +24,95 @@ Code.
 
 **Confirmado funcionando no robô pelo usuário:**
 
-- Motor da garra na porta D mexendo, com abertura e sentido corretos na
-  estrutura **anterior** do robô
-- Tração andando (o usuário validou que a porta D resolveu o problema em que
-  "o Spike 4 não fazia nada")
+- Tração andando reto com `DriveBase` + `use_gyro(True)`
+- Motor da garra na porta D, abrindo e fechando
+- O percurso rodou o suficiente para o usuário observar o robô **empinando para
+  frente** ao parar com o cano na garra — foi esse relato que motivou a divisão
+  em dois programas e o freio suave
 
 **Escrito e revisado, mas NÃO testado no robô:**
 
-- Percurso de 17 passos em `spike4.py` (escrito nesta sessão, nunca rodado)
-- `Direction.CLOCKWISE` na garra — o usuário mudou a estrutura do robô e pediu
-  a inversão; ninguém rodou depois da troca
-- `ABERTURA_GARRA = 35` graus
-- `DISTANCIA_RODAS = 143` mm — valor medido e informado pelo usuário, mas
-  nenhuma curva foi executada depois disso
-- `DIAMETRO_RODA = 55` mm nunca foi validado com régua (ver seção 5, item 2)
+- `percurso1.py` e `percurso2.py` — a divisão em dois programas é desta sessão
+- A metade de velocidade e o freio suave do `percurso2.py`
+  (`straight_acceleration=(250, 60)`) — os valores 250 e 60 são um ponto de
+  partida, não medidos
+- `Direction.CLOCKWISE` na garra, depois de uma mudança na estrutura do robô
+- `DISTANCIA_RODAS = 143` mm — medido e informado pelo usuário, mas nenhuma
+  curva foi executada depois disso
+- `DIAMETRO_RODA = 55` mm nunca foi validado com régua (seção 5, item 2)
 
-**Não começado:**
+**Decisão pendente do usuário:**
 
-- Fechar a garra em algum ponto do percurso (ver seção 6)
+- A garra abre duas vezes e nunca fecha (seção 6)
 
 ## 3. Arquivos e trechos relevantes
 
 - **`CLAUDE.md`** — regras fixas do projeto, escritas a pedido do usuário ao
-  longo da sessão: cabeçalho padrão obrigatório, mapa de portas, proibição de
-  teste de porta, proibição de bipe, convenções da garra e estilo do código.
-  **Ler antes de tocar em qualquer `.py`.** Essas regras vieram de correções
-  explícitas do usuário, não de preferência do assistente.
+  longo das sessões: cabeçalho padrão obrigatório, mapa de portas, proibição de
+  teste de porta, proibição de bipe, convenções da garra, estilo do código e a
+  configuração de velocidade/freio com carga. **Ler antes de tocar em qualquer
+  `.py`.** Essas regras vieram de correções explícitas do usuário, não de
+  preferência do assistente.
 
-- **`spike4.py`** (397 linhas) — programa principal.
-  - Linhas 1–7: cabeçalho padrão obrigatório
-  - Linha 40: criação do motor da garra, onde o **sentido** é ajustado
-  - Linha 48: `motor_garra.reset_angle(0)`
-  - Linhas 58–62: `DIAMETRO_RODA`, `DISTANCIA_RODAS`
-  - Linhas 69–71: velocidades
-  - Linha 80: `ABERTURA_GARRA = 35`
-  - Linhas 91–113: `DriveBase` + `use_gyro(True)` + `settings()`
-  - Linhas 123–126: espera `hub.imu.ready()` e zera o rumo
-  - Linhas 135–216: funções `andar`, `re`, `girar_esquerda`, `girar_direita`,
-    `abrir_garra`, `fechar_garra`, `soltar_garra`
-  - Linhas 220–397: o percurso, um bloco comentado por passo (1 a 17)
+- **`percurso1.py`** (224 linhas) — passos 1 a 7, robô **vazio**, velocidade
+  normal (200 mm/s, 100 graus/s). Não declara o motor da garra, porque não usa.
+  Termina no ponto onde o cano é colocado na garra e imprime isso no console.
 
-- **`teste_rapido.py`** (150 linhas) — anda 10 cm e abre a garra. É o programa
-  para validar medidas e sentido antes de rodar o percurso inteiro. Imprime o
-  desvio do rumo e o ângulo da garra.
+- **`percurso2.py`** (422 linhas) — passos 8 a 26, robô **com o cano**.
+  - Linhas 68–72: velocidades pela metade (100 mm/s, 50 graus/s)
+  - Linhas 82–89: `ACELERACAO_RETA`/`DESACELERACAO_RETA` e os equivalentes de
+    giro — é aqui que se ajusta a empinada
+  - Linhas 113–126: `robo.settings()` com as tuplas `(acelerar, desacelerar)`
+  - Passo 13 e passo 22: as duas aberturas da garra
+
+- **`teste_rapido.py`** (150 linhas) — anda 10 cm e abre a garra. Programa para
+  validar medidas e sentido antes de rodar o percurso. Imprime o desvio do rumo
+  e o ângulo da garra.
 
 - **`teste_garra.py`** (140 linhas) — não anda. Faz 3 ciclos abre/fecha
   automáticos e depois entra em modo manual pelas setas do hub (esquerda fecha,
-  direita abre). Serve para achar `ABERTURA_GARRA` no próprio robô.
+  direita abre).
 
 ## 4. Decisões tomadas e o porquê
 
-**Tração por `DriveBase` com `use_gyro(True)`, nunca motor por motor.**
-A primeira versão mandava `motor_a` e `motor_b` com valores espelhados e
-esperava que fossem juntos — qualquer diferença de atrito tortava o robô e nada
-corrigia. O `DriveBase` iguala as rodas, e `use_gyro(True)` faz o robô medir o
-próprio desvio e corrigir durante o trajeto. As curvas passaram a ser
-`robo.turn()`, que também usa o giroscópio, eliminando o laço manual que lia
-`hub.imu.heading()`. Voltar atrás custa reescrever `andar`, `re` e os dois
-`girar_*`.
+**Percurso dividido em dois programas, cortando entre os passos 7 e 8.** O corte
+foi pedido pelo usuário: o cano é colocado na garra nesse ponto, então a partir
+do passo 8 o robô está carregado e precisa de outra configuração de movimento.
+Dois programas separados são mais simples do que um só com velocidades trocadas
+no meio, e permitem repetir uma das partes sem rodar a outra. O custo é que o
+giroscópio é zerado no início de cada programa, então as curvas do `percurso2`
+são relativas à posição onde ele começa — se o robô for movido entre os dois
+programas, o rumo se perde.
+
+**Acelera normal, freia devagar — não velocidade baixa em tudo.** O robô
+empinava ao **parar**, não ao andar: é a frenagem que joga o peso do cano para
+frente. Em Pybricks, `straight_acceleration` e `turn_acceleration` aceitam uma
+tupla `(aceleração, desaceleração)`, então o `percurso2.py` usa
+`(250, 60)` e `(300, 100)` — arrancada normal, freio manso. A metade da
+velocidade (pedida pelo usuário) soma-se a isso. Se voltar a empinar, **baixar
+o segundo valor da tupla** é o ajuste certo, não a velocidade.
+
+**Tração por `DriveBase` com `use_gyro(True)`, nunca motor por motor.** A
+primeira versão mandava os dois motores com valores espelhados e esperava que
+fossem juntos — qualquer diferença de atrito tortava o robô e nada corrigia. O
+`DriveBase` iguala as rodas e o giroscópio corrige o rumo durante o trajeto. As
+curvas são `robo.turn()`, que também usa o giroscópio. Voltar atrás custa
+reescrever `andar`, `re` e os dois `girar_*` nos dois programas.
 
 **Sentido de rotação corrigido na criação do motor, nunca no sinal da chamada.**
-`Motor(Port.D, Direction.CLOCKWISE)`. Quando a garra girou para o lado errado, a
-tentação foi trocar o sinal dentro de `abrir_garra()`, mas isso faria
-`ABERTURA_GARRA` positivo significar "fechar" e confundiria toda leitura futura
-do código. Com o ajuste na criação do motor, positivo é sempre abrir, e uma
-mudança de estrutura do robô é **uma linha** por arquivo.
+`Motor(Port.D, Direction.CLOCKWISE)`. Trocar o sinal dentro de `abrir_garra()`
+faria `ABERTURA_GARRA` positivo significar "fechar" e confundiria toda leitura
+futura. Com o ajuste na criação do motor, positivo é sempre abrir, e uma mudança
+de estrutura do robô é **uma linha** por arquivo.
 
 **Nada de verificação de porta ou de travamento — decisão explícita do usuário.**
 Uma versão anterior tinha `try/except OSError` em volta de `Motor(...)`,
 `run_until_stalled` com `duty_limit` e detecção de travamento por `speed()`. O
-usuário mandou tirar tudo: "só mande o motor mexer". Hoje a garra é
-`run_angle(VELOCIDADE_GARRA, ±ABERTURA_GARRA)` e nada mais. **Não reintroduzir
-isso**, mesmo parecendo mais seguro — está proibido no `CLAUDE.md`.
+usuário mandou tirar tudo: "só mande o motor mexer". **Não reintroduzir** —
+está proibido no `CLAUDE.md`.
 
 **Constantes repetidas em cada arquivo, de propósito.** Cada programa é baixado
-sozinho no hub, então precisa ser autossuficiente. O custo é real: mudar uma
-medida exige editar mais de um arquivo (ver seção 6).
+sozinho no hub, então precisa ser autossuficiente. O custo é real (seção 6).
 
 **Sem bipe.** `hub.speaker.beep()` foi removido a pedido do usuário. Só luz:
 vermelho = rodando, verde = andando, azul = terminou.
@@ -108,45 +124,54 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
 
 ## 5. Pendências e próximos passos
 
-1. **Perguntar ao usuário se falta um `fechar_garra()` no percurso.** O percurso
-   atual só **abre** a garra (passo 13, linha 345). Não há nenhum fechamento em
-   lugar nenhum. Isso foi sinalizado ao usuário e ele ainda não respondeu. Pode
-   ser intencional (a garra começa fechada e solta algo) ou pode ser um passo
-   esquecido.
+1. **Decidir o que fazer com a garra que abre duas vezes.** No `percurso2.py`
+   ela abre no passo 13 e abre **de novo** no passo 22, sem fechar no meio.
+   `run_angle` é relativo, então ela acaba 70° aberta e pode bater no fim do
+   curso. Três saídas foram apresentadas ao usuário e ele ainda não escolheu:
+   (a) `fechar_garra()` depois de cada abertura, (b) um `fechar_garra()` entre
+   os passos 13 e 22, (c) trocar `run_angle` por `run_target` nas funções da
+   garra, o que muda a convenção do `CLAUDE.md`.
 2. **Rodar `teste_rapido.py` e medir com régua quanto o robô andou.** Se andou
    diferente de 10 cm, ajustar `DIAMETRO_RODA` proporcionalmente
-   (`55 × pedido/medido`) em `spike4.py:58` **e** `teste_rapido.py:52`.
-3. **Confirmar no `teste_rapido.py` que a garra abre para o lado certo** com o
-   `Direction.CLOCKWISE` novo, depois da mudança de estrutura. Se estiver
-   invertida, trocar para `COUNTERCLOCKWISE` nos três arquivos.
-4. **Rodar o percurso completo do `spike4.py`** e conferir se as quatro curvas
-   de 90° fecham o ângulo com `DISTANCIA_RODAS = 143`.
-5. **Abrir PR, se o usuário pedir.** Nenhum PR foi aberto nesta sessão — o
-   trabalho só foi commitado e enviado para a branch.
+   (`55 × pedido/medido`) em **todos** os arquivos que o declaram.
+3. **Rodar `percurso2.py` com o cano e ver se ainda empina.** Se empinar,
+   baixar `DESACELERACAO_RETA` (hoje 60) para 40 ou 30. Se ficar lento demais
+   para a competição, subir a velocidade antes de mexer no freio.
+4. **Confirmar que a garra abre para o lado certo** com o `Direction.CLOCKWISE`
+   novo, depois da mudança de estrutura.
+5. **Conferir se as curvas de 90° e o giro de 180° fecham o ângulo** com
+   `DISTANCIA_RODAS = 143`.
+6. **Abrir PR, se o usuário pedir.** Nenhum PR foi aberto — o trabalho só foi
+   commitado e enviado para a branch.
 
 ## 6. Problemas conhecidos e armadilhas
 
-- **A garra tem que estar FECHADA antes do start.** `motor_garra.reset_angle(0)`
-  define a posição atual como zero. Iniciar com a garra meio aberta desloca todo
-  o curso.
-- **O robô tem que estar PARADO no início.** Os programas esperam
+- **A garra abre duas vezes e nunca fecha** no `percurso2.py` (ver seção 5,
+  item 1). É o problema aberto mais importante.
+- **A garra tem que estar FECHADA no cano antes de rodar o `percurso2.py`.**
+  `motor_garra.reset_angle(0)` define a posição atual como zero.
+- **O robô tem que estar PARADO no início de cada programa.** Os dois esperam
   `hub.imu.ready()`; mexer no robô nesse intervalo estraga a calibração do
   giroscópio e a linha reta sai torta.
-- **Constantes duplicadas.** `DIAMETRO_RODA` e `DISTANCIA_RODAS` existem em
-  `spike4.py` e `teste_rapido.py`; `ABERTURA_GARRA` e a `Direction` da garra
-  existem nos três arquivos. Mudar em um só deixa o projeto inconsistente —
-  **sempre mudar em todos**. Um módulo compartilhado resolveria, mas não foi
-  verificado se o Pybricks Code do usuário suporta múltiplos arquivos no hub.
+- **Não mover o robô entre o `percurso1.py` e o `percurso2.py`.** O
+  `percurso2.py` zera o rumo onde começa; girar o robô na mão ao colocar o cano
+  desloca todas as curvas seguintes.
+- **Constantes duplicadas em quatro arquivos.** `DIAMETRO_RODA` e
+  `DISTANCIA_RODAS` estão em `percurso1.py`, `percurso2.py` e
+  `teste_rapido.py`; `ABERTURA_GARRA` e a `Direction` da garra estão em
+  `percurso2.py`, `teste_garra.py` e `teste_rapido.py`. Mudar em um só deixa o
+  projeto inconsistente — **sempre mudar em todos**. Um módulo compartilhado
+  resolveria, mas não foi verificado se o Pybricks Code do usuário suporta
+  múltiplos arquivos no hub.
 - **`robo.turn()` negativo gira para a ESQUERDA**, positivo para a direita. É
-  contraintuitivo e já causou confusão; `girar_esquerda()` existe justamente
-  para esconder esse sinal.
+  contraintuitivo; `girar_esquerda()` existe para esconder esse sinal.
 - **Qual motor é o esquerdo foi deduzido, não confirmado.** `Port.A` é tratado
   como esquerdo (com `Direction.COUNTERCLOCKWISE`), inferido pelos sinais do
-  código original do usuário. Se o robô girar para o lado errado nas curvas, é
-  só trocar A e B na criação do `DriveBase` (`spike4.py:91`).
-- **Não existe forma de testar lógica aqui.** `pybricks` não está instalado e não
-  pode ser. O único check disponível é de sintaxe (seção 7). Qualquer afirmação
-  de "funciona" tem que vir de uma rodada no robô, feita pelo usuário.
+  código original do usuário. Se o robô girar para o lado errado, trocar A e B
+  na criação do `DriveBase`.
+- **Não existe forma de testar lógica aqui.** `pybricks` não está instalado e
+  não pode ser. O único check disponível é de sintaxe (seção 7). Qualquer
+  afirmação de "funciona" tem que vir de uma rodada no robô, feita pelo usuário.
 - **Tentativa que já falhou e não vale repetir:** proteger a garra com
   `try/except OSError` e detectar travamento. Foi implementado, o usuário mandou
   remover, e hoje está proibido no `CLAUDE.md`.
@@ -159,22 +184,16 @@ multiplicam por 10 internamente — as chamadas do percurso ficam legíveis
 2. Conectar o hub SPIKE Prime por Bluetooth
 3. Colar o conteúdo do programa desejado e rodar
 4. Deixar a garra **fechada** e o robô **parado** antes de dar start
-5. Ordem recomendada: `teste_garra.py` → `teste_rapido.py` → `spike4.py`
+
+Ordem do percurso completo:
+
+1. `percurso1.py` — robô vazio, termina imprimindo "Coloque o cano na garra"
+2. Colocar o cano na garra, **sem mover o robô de lugar**
+3. `percurso2.py` — os 10 s do passo 8 dão tempo de sair de perto
+
+Para calibrar antes: `teste_garra.py` (só a garra) e `teste_rapido.py` (10 cm).
 
 Portas: A = tração esquerda, B = tração direita, D = garra.
-
-O que se espera ver no console do Pybricks ao rodar `spike4.py`:
-
-```
-PROGRAMA INICIADO
-Preparando giroscopio...
-Giroscopio pronto.
-PERCURSO INICIADO
-1) Andando 2,10 metros...
-2) Curva 90 graus esquerda
-...
-PERCURSO COMPLETO
-```
 
 Luz do hub: vermelha no início, verde durante o percurso, azul no fim. Se a luz
 não acender, o programa não iniciou — o problema não está no código.
@@ -183,7 +202,7 @@ não acender, o programa não iniciou — o problema não está no código.
 
 ```bash
 cd /home/user/FMR
-for f in spike4.py teste_garra.py teste_rapido.py; do
+for f in percurso1.py percurso2.py teste_garra.py teste_rapido.py; do
   python3 -c "import ast; ast.parse(open('$f').read()); print('$f ok')"
 done
 ```
