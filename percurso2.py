@@ -95,7 +95,7 @@ DESACELERACAO_GIRO = 100  # graus/s2
 # AJUSTES DA GARRA
 # ==========================
 
-ABERTURA_GARRA = 80
+ABERTURA_GARRA = 100
 
 
 # ==========================
@@ -260,12 +260,12 @@ girar_direita(90)
 
 
 # ==========================
-# 11 - ANDAR 5 CM
+# 11 - ANDAR 12 CM
 # ==========================
 
-print("11) Andando 5 cm...")
+print("11) Andando 12 cm...")
 
-andar(5)
+andar(12)
 
 
 # ==========================
@@ -290,12 +290,12 @@ abrir_garra()
 
 
 # ==========================
-# 14 - RÉ 5 CM
+# 14 - RÉ 12 CM
 # ==========================
 
-print("14) Dando re 5 cm...")
+print("14) Dando re 12 cm...")
 
-re(5)
+re(12)
 
 
 # ==========================

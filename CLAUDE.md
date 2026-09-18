@@ -121,4 +121,4 @@ Logo depois de criar o motor vem `motor_garra.reset_angle(0)`: a posição em qu
 a garra está ao iniciar o programa passa a valer como ângulo zero. Por isso a
 garra deve estar **fechada** antes de rodar qualquer programa.
 
-`ABERTURA_GARRA = 80` graus.
+`ABERTURA_GARRA = 100` graus.
