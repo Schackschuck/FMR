@@ -94,7 +94,7 @@ DESACELERACAO_GIRO = 100  # graus/s2
 # AJUSTES DA GARRA
 # ==========================
 
-ABERTURA_GARRA = 50
+ABERTURA_GARRA = 80
 
 
 # ==========================

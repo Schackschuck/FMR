@@ -58,7 +58,8 @@ divisão existe porque um cano pesado é colocado na garra antes de cada uma das
 duas entregas.
 
 - `percurso1.py` — passos 1 a 7, robô **vazio**
-- `percurso2.py` — passos 9 a 16, leva o **primeiro cano**, solta e volta
+- `percurso2.py` — passos 9 a 16, retão de 88 cm, leva o **primeiro cano**,
+  solta e volta
 - `percurso3.py` — passos 17 a 26, leva o **segundo cano**, solta e volta
 
 Entre um programa e o outro: colocar o cano, fechar a garra nele **na mão** e
@@ -120,4 +121,4 @@ Logo depois de criar o motor vem `motor_garra.reset_angle(0)`: a posição em qu
 a garra está ao iniciar o programa passa a valer como ângulo zero. Por isso a
 garra deve estar **fechada** antes de rodar qualquer programa.
 
-`ABERTURA_GARRA = 50` graus.
+`ABERTURA_GARRA = 80` graus.

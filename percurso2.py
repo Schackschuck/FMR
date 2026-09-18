@@ -95,7 +95,7 @@ DESACELERACAO_GIRO = 100  # graus/s2
 # AJUSTES DA GARRA
 # ==========================
 
-ABERTURA_GARRA = 50
+ABERTURA_GARRA = 80
 
 
 # ==========================
@@ -242,12 +242,12 @@ print("PERCURSO 2 INICIADO")
 
 
 # ==========================
-# 9 - ANDAR 100 CM
+# 9 - ANDAR 88 CM
 # ==========================
 
-print("9) Andando 100 cm...")
+print("9) Andando 88 cm...")
 
-andar(100)
+andar(88)
 
 
 # ==========================
@@ -308,12 +308,12 @@ girar_direita(90)
 
 
 # ==========================
-# 16 - VOLTAR 100 CM
+# 16 - VOLTAR 88 CM
 # ==========================
 
-print("16) Voltando 100 cm...")
+print("16) Voltando 88 cm...")
 
-andar(100)
+andar(88)
 
 
 # ==========================

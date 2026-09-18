@@ -47,7 +47,7 @@ VELOCIDADE_GARRA = 300
 
 # Quanto o motor gira para abrir
 # ou fechar (em graus)
-ABERTURA_GARRA = 50
+ABERTURA_GARRA = 80
 
 
 # ==========================
