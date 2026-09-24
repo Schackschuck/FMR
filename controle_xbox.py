@@ -95,7 +95,7 @@ VELOCIDADE_GIRO = 38            # graus por segundo
 # joystick direito ate o fim.
 
 VELOCIDADE_HASTE_SUBIDA = 90    # graus por segundo
-VELOCIDADE_HASTE_DESCIDA = 90   # graus por segundo
+VELOCIDADE_HASTE_DESCIDA = 180  # graus por segundo
 
 VELOCIDADE_CORDA = 900          # graus por segundo
 
