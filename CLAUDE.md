@@ -67,7 +67,7 @@ não mover o robô de lugar. Cada programa zera o rumo do giroscópio e o ângul
 garra onde começa.
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
-- `controle_xbox.py` — controle remoto pelo controle do Xbox: joystick esquerdo
+- `controle_xbox.py` — controle remoto pelo controle do Xbox: direcional (setas)
   anda, joystick direito mexe a haste (porta C), RB/LB giram a corda (porta D)
 
 ## Carga: percurso2 e percurso3 freiam devagar
