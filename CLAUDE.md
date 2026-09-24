@@ -51,6 +51,13 @@ robo.use_gyro(True)
 Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
 `DISTANCIA_RODAS = 143` mm, de centro a centro das rodas.
 
+**Exceção: `controle_xbox.py`.** No controle remoto a tração usa
+`robo.use_gyro(False)` e, com nenhuma seta apertada, `robo.stop()` em vez de
+`robo.drive(0, 0)`. Com o giroscópio e o `drive(0, 0)`, os motores seguravam o
+robô o tempo todo: movimentos curtos davam trancos e o motor ficava fazendo
+barulho parado. Quem corrige o rumo ali é quem dirige. Nos percursos o
+giroscópio continua obrigatório.
+
 ## Arquivos
 
 O percurso é dividido em três programas, rodados em sequência pelo usuário. A
