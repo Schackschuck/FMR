@@ -15,10 +15,10 @@ from pybricks.iodevices import XboxController
 # Mesmos comandos do controle pelo
 # teclado, agora no controle do Xbox.
 #
-# Joystick ESQUERDO = anda e gira
-# Joystick DIREITO  = levanta e
-#                     abaixa a haste
-# RB / LB           = giram a corda
+# Direcional (setas) = anda e gira
+# Joystick DIREITO   = levanta e
+#                      abaixa a haste
+# RB / LB            = giram a corda
 #
 # Nao tem botao de parar: soltou o
 # controle, tudo para.
@@ -71,9 +71,9 @@ DISTANCIA_RODAS = 143     # mm
 # ==========================
 # VELOCIDADES
 # ==========================
-# Tracao: velocidade com o joystick
-# empurrado ate o fim. Empurrar
-# menos anda mais devagar.
+# Tracao: o direcional nao tem meio
+# termo, entao anda sempre nessas
+# velocidades.
 #
 # Iguais as do teclado: la cada roda
 # girava a 100 graus/s, o que da
@@ -83,8 +83,8 @@ DISTANCIA_RODAS = 143     # mm
 VELOCIDADE_RETA = 48            # mm por segundo
 VELOCIDADE_GIRO = 38            # graus por segundo
 
-# Haste: tambem e o maximo, com o
-# joystick direito ate o fim.
+# Haste: e o maximo, com o joystick
+# direito ate o fim.
 
 VELOCIDADE_HASTE_SUBIDA = 90    # graus por segundo
 VELOCIDADE_HASTE_DESCIDA = 180  # graus por segundo
@@ -145,7 +145,7 @@ print("      CONTROLE DO ROBO")
 print("================================")
 
 print("")
-print("MOVIMENTACAO - joystick esquerdo:")
+print("MOVIMENTACAO - direcional (setas):")
 print("Cima = FRENTE")
 print("Baixo = RE")
 print("Esquerda / direita = GIRAR")
@@ -173,17 +173,39 @@ hub.light.on(Color.GREEN)
 while True:
 
     # ==========================
+    # LER OS BOTOES
+    # ==========================
+
+    botoes = controle.buttons.pressed()
+
+
+    # ==========================
     # MOVIMENTACAO
     # ==========================
-    # Joystick de -100 a 100:
-    # cima e direita sao positivos.
+    # Direcional (setas). Da para
+    # apertar duas juntas: cima com
+    # direita anda fazendo curva.
 
-    lado, frente = controle.joystick_left()
+    velocidade = 0
+    giro = 0
 
-    robo.drive(
-        frente * VELOCIDADE_RETA / 100,
-        lado * VELOCIDADE_GIRO / 100
-    )
+    if Button.UP in botoes:
+
+        velocidade = VELOCIDADE_RETA
+
+    elif Button.DOWN in botoes:
+
+        velocidade = -VELOCIDADE_RETA
+
+    if Button.RIGHT in botoes:
+
+        giro = VELOCIDADE_GIRO
+
+    elif Button.LEFT in botoes:
+
+        giro = -VELOCIDADE_GIRO
+
+    robo.drive(velocidade, giro)
 
 
     # ==========================
@@ -212,8 +234,6 @@ while True:
     # ==========================
     # CORDA
     # ==========================
-
-    botoes = controle.buttons.pressed()
 
     if Button.RB in botoes:
 
