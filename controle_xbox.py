@@ -52,14 +52,6 @@ motor_direito = Motor(Port.B)
 motor_haste = Motor(Port.C, Direction.CLOCKWISE)
 
 
-# A posicao em que a haste esta
-# AGORA vale como angulo ZERO. O
-# limite de descida conta a partir
-# daqui.
-
-motor_haste.reset_angle(0)
-
-
 # ==========================
 # MOTOR DA CORDA - PORTA D
 # ==========================
@@ -98,16 +90,6 @@ VELOCIDADE_HASTE_SUBIDA = 90    # graus por segundo
 VELOCIDADE_HASTE_DESCIDA = 180  # graus por segundo
 
 VELOCIDADE_CORDA = 900          # graus por segundo
-
-
-# ==========================
-# LIMITE DA HASTE
-# ==========================
-# Quanto a haste pode descer, em
-# graus, a partir de onde ela estava
-# ao iniciar o programa.
-
-LIMITE_HASTE_DESCIDA = -45
 
 
 # ==========================
@@ -172,7 +154,6 @@ print("")
 print("HASTE - joystick direito:")
 print("Cima = LEVANTAR")
 print("Baixo = ABAIXAR")
-print("Limite de descida =", LIMITE_HASTE_DESCIDA, "graus")
 
 print("")
 print("CORDA:")
@@ -218,14 +199,13 @@ while True:
 
         motor_haste.run(comando_haste * VELOCIDADE_HASTE_SUBIDA / 100)
 
-    elif comando_haste < 0 and motor_haste.angle() > LIMITE_HASTE_DESCIDA:
+    elif comando_haste < 0:
 
         motor_haste.run(comando_haste * VELOCIDADE_HASTE_DESCIDA / 100)
 
     else:
 
-        # Joystick solto, ou a haste ja
-        # chegou no limite de descida.
+        # Joystick solto
         motor_haste.stop()
 
 
