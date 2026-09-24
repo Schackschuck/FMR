@@ -56,7 +56,7 @@ Code.
   normal (200 mm/s, 100 graus/s). Não declara o motor da garra, porque não usa.
   Termina no ponto onde o cano é colocado na garra e imprime isso no console.
 
-- **`percurso2.py`** — passos 9 a 16: retão de 88 cm, leva o primeiro cano,
+- **`percurso2.py`** — passos 9 a 16: retão de 83 cm, leva o primeiro cano,
   solta e volta.
   **`percurso3.py`** — passos 19 a 26: leva o segundo cano, solta e volta. Os dois têm a mesma configuração; só o trecho do percurso difere.
   Nos dois, na mesma ordem: velocidades (350 mm/s, 150 graus/s), depois

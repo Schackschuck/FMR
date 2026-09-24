@@ -58,7 +58,7 @@ divisão existe porque um cano pesado é colocado na garra antes de cada uma das
 duas entregas.
 
 - `percurso1.py` — passos 1 a 7, robô **vazio**
-- `percurso2.py` — passos 9 a 16, retão de 88 cm, leva o **primeiro cano**,
+- `percurso2.py` — passos 9 a 16, retão de 83 cm, leva o **primeiro cano**,
   solta e volta
 - `percurso3.py` — passos 19 a 26, leva o **segundo cano**, solta e volta
 

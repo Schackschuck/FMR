@@ -242,12 +242,12 @@ print("PERCURSO 2 INICIADO")
 
 
 # ==========================
-# 9 - ANDAR 88 CM
+# 9 - ANDAR 83 CM
 # ==========================
 
-print("9) Andando 88 cm...")
+print("9) Andando 83 cm...")
 
-andar(88)
+andar(83)
 
 
 # ==========================
@@ -308,12 +308,12 @@ girar_direita(90)
 
 
 # ==========================
-# 16 - VOLTAR 88 CM
+# 16 - VOLTAR 83 CM
 # ==========================
 
-print("16) Voltando 88 cm...")
+print("16) Voltando 83 cm...")
 
-andar(88)
+andar(83)
 
 
 # ==========================
