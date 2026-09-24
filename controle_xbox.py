@@ -23,8 +23,7 @@ from pybricks.iodevices import XboxController
 # Nao tem botao de parar: soltou o
 # controle, tudo para.
 #
-# Antes de rodar: controle ligado e
-# robo parado.
+# Antes de rodar: controle ligado.
 
 
 # ==========================
@@ -103,7 +102,12 @@ robo = DriveBase(
     axle_track=DISTANCIA_RODAS
 )
 
-robo.use_gyro(True)
+# SEM giroscopio, de proposito: aqui
+# quem corrige o rumo e quem dirige.
+# Com ele, os movimentos curtos davam
+# trancos e o robo tremia parado.
+
+robo.use_gyro(False)
 
 
 # ==========================
@@ -119,21 +123,6 @@ print("Procurando o controle...")
 controle = XboxController()
 
 print("Controle conectado.")
-
-
-# ==========================
-# ESPERAR O GIROSCOPIO
-# ==========================
-# NAO mexa no robo agora.
-
-print("Preparando giroscopio...")
-
-while not hub.imu.ready():
-    wait(10)
-
-hub.imu.reset_heading(0)
-
-print("Giroscopio pronto.")
 
 
 # ==========================
@@ -205,7 +194,16 @@ while True:
 
         giro = -VELOCIDADE_GIRO
 
-    robo.drive(velocidade, giro)
+    if velocidade == 0 and giro == 0:
+
+        # Nenhuma seta: motores soltos.
+        # drive(0, 0) deixaria os motores
+        # segurando o robo, com barulho.
+        robo.stop()
+
+    else:
+
+        robo.drive(velocidade, giro)
 
 
     # ==========================
