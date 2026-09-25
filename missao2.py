@@ -48,9 +48,13 @@ motor_direito = Motor(Port.B)
 # MEDIDAS DO ROBO
 # ==========================
 # Em MILIMETROS
+#
+# DISTANCIA_RODAS e 128 so neste
+# programa, de proposito: os outros
+# continuam com 143.
 
 DIAMETRO_RODA = 55        # mm
-DISTANCIA_RODAS = 143     # mm
+DISTANCIA_RODAS = 128     # mm
 
 
 # ==========================

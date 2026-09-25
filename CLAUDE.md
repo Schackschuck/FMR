@@ -49,7 +49,9 @@ robo.use_gyro(True)
 - Antes de andar, esperar `hub.imu.ready()` com o robô parado
 
 Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
-`DISTANCIA_RODAS = 143` mm, de centro a centro das rodas.
+`DISTANCIA_RODAS = 143` mm, de centro a centro das rodas. Exceção: o
+`missao2.py` usa `DISTANCIA_RODAS = 128` mm, de propósito — não igualar aos
+outros.
 
 **Exceção: `controle_xbox.py` e `missao2.py`.** No controle remoto a tração usa
 `robo.use_gyro(False)` e, com nada apertado, solta o robô em vez de
