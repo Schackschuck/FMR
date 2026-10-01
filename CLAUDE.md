@@ -136,3 +136,16 @@ a garra está ao iniciar o programa passa a valer como ângulo zero. Por isso a
 garra deve estar **fechada** antes de rodar qualquer programa.
 
 `ABERTURA_GARRA = 100` graus.
+
+## Fluxo de trabalho
+
+Para tarefas de programação que não sejam triviais, o agente principal:
+
+1. **Escreve um plano detalhado em `PLANO.md`**, com os arquivos a mexer, as
+   funções, as estruturas de dados, os casos de borda e os testes.
+2. **Delega cada etapa ao subagente `implementador`**
+   (`.claude/agents/implementador.md`), uma de cada vez.
+3. **Revisa o diff ao final** e corrige os problemas que encontrar.
+
+Para debug difícil ou mudanças que atravessam o projeto inteiro, o agente
+principal pode fazer direto, sem delegar.
