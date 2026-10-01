@@ -15,14 +15,11 @@ from pybricks.iodevices import XboxController
 # O robo e dirigido pelo controle do
 # Xbox. So a tracao: motores A e B.
 #
-# Setas             = velocidade fixa
-# Joystick ESQUERDO = ajuste fino,
-#                     mais rapido
-#                     quanto mais
-#                     empurra
+# Setas = velocidade fixa, com o
+#         giroscopio corrigindo os
+#         desvios no meio do caminho.
 #
-# Se usar os dois juntos, as setas
-# mandam. Soltou tudo, o robo para.
+# Soltou tudo, o robo para.
 #
 # Antes de rodar: controle ligado.
 
@@ -61,8 +58,7 @@ DISTANCIA_RODAS = 128     # mm
 # VELOCIDADES
 # ==========================
 # As setas andam sempre nessas
-# velocidades. O joystick chega
-# nelas quando empurrado ate o fim.
+# velocidades.
 
 VELOCIDADE_RETA = 200     # mm por segundo
 VELOCIDADE_GIRO = 100     # graus por segundo
@@ -79,12 +75,24 @@ robo = DriveBase(
     axle_track=DISTANCIA_RODAS
 )
 
-# SEM giroscopio, de proposito: aqui
-# quem corrige o rumo e quem dirige.
-# Com ele, os movimentos curtos davam
-# trancos e o robo tremia parado.
+# COM giroscopio, de proposito: nesta
+# missao ele corrige os desvios no
+# meio do caminho. Parado, o robo
+# fica solto (brake), para nao tremer
+# nem dar tranco.
 
-robo.use_gyro(False)
+robo.use_gyro(True)
+
+# O giroscopio so calibra com o robo
+# PARADO: nao mexa nele ate liberar.
+
+print("Calibrando o giroscopio...")
+
+while not hub.imu.ready():
+
+    wait(10)
+
+print("Giroscopio pronto.")
 
 
 # ==========================
@@ -117,8 +125,7 @@ print("Baixo = RE")
 print("Esquerda / direita = GIRAR")
 
 print("")
-print("JOYSTICK ESQUERDO - ajuste fino:")
-print("Empurrar pouco = devagar")
+print("O giroscopio corrige o rumo.")
 
 print("")
 print("Soltou tudo, o robo para.")
@@ -162,21 +169,6 @@ while True:
 
 
     # ==========================
-    # JOYSTICK ESQUERDO
-    # ==========================
-    # So vale com nenhuma seta
-    # apertada. De -100 a 100:
-    # cima e direita sao positivos.
-
-    if velocidade == 0 and giro == 0:
-
-        lado, frente = controle.joystick_left()
-
-        velocidade = frente * VELOCIDADE_RETA / 100
-        giro = lado * VELOCIDADE_GIRO / 100
-
-
-    # ==========================
     # ANDAR OU PARAR
     # ==========================
 
@@ -184,7 +176,9 @@ while True:
 
         # Nada apertado: freia as rodas
         # sem ficar segurando o robo, entao
-        # nao tem barulho nem tranco.
+        # nao tem barulho nem tranco. Nao
+        # usar drive(0, 0): com o giroscopio
+        # ele segura o robo o tempo todo.
         robo.brake()
 
     else:

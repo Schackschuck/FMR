@@ -53,13 +53,19 @@ Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
 `missao2.py` usa `DISTANCIA_RODAS = 128` mm, de propósito — não igualar aos
 outros.
 
-**Exceção: `controle_xbox.py` e `missao2.py`.** No controle remoto a tração usa
-`robo.use_gyro(False)` e, com nada apertado, solta o robô em vez de
-`robo.drive(0, 0)`: `robo.stop()` no `controle_xbox.py` e `robo.brake()` no
-`missao2.py`, que anda a 200 mm/s e rolaria depois de soltar. Com o giroscópio e
-o `drive(0, 0)`, os motores seguravam o robô o tempo todo: movimentos curtos
-davam trancos e o motor ficava fazendo barulho parado. Quem corrige o rumo ali é
-quem dirige. Nos percursos o giroscópio continua obrigatório.
+**Exceção: `controle_xbox.py`.** No controle remoto a tração usa
+`robo.use_gyro(False)` e, com nada apertado, solta o robô com `robo.stop()` em
+vez de `robo.drive(0, 0)`. Com o giroscópio e o `drive(0, 0)`, os motores
+seguravam o robô o tempo todo: movimentos curtos davam trancos e o motor ficava
+fazendo barulho parado. Quem corrige o rumo ali é quem dirige.
+
+**`missao2.py`: giroscópio ligado.** Ali o `robo.use_gyro(True)` corrige os
+desvios no meio do caminho, e o programa espera `hub.imu.ready()` antes de
+aceitar comandos. Com nada apertado usa `robo.brake()`, nunca `drive(0, 0)`, para
+não segurar o robô parado (anda a 200 mm/s e rolaria se só soltasse). Só o
+d-pad dirige; o joystick não anda o robô.
+
+Nos percursos o giroscópio continua obrigatório.
 
 ## Arquivos
 
@@ -79,8 +85,8 @@ garra onde começa.
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 - `controle_xbox.py` — controle remoto pelo controle do Xbox: direcional (setas)
   anda, joystick direito mexe a haste (porta C), RB/LB giram a corda (porta D)
-- `missao2.py` — controle remoto pelo Xbox, só tração: setas a 200 mm/s e
-  100 graus/s, joystick esquerdo para ajuste fino
+- `missao2.py` — controle remoto pelo Xbox, só tração, só pelo d-pad: setas a
+  200 mm/s e 100 graus/s, com o giroscópio corrigindo o rumo
 
 ## Carga: percurso2 e percurso3 freiam devagar
 
