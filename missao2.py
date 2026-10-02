@@ -13,15 +13,20 @@ from pybricks.iodevices import XboxController
 #          MISSAO 2 - CONTROLE PELO XBOX
 # ==========================================================
 # O robo e dirigido pelo controle do
-# Xbox. So a tracao: motores A e B.
+# Xbox. Tracao: motores A e B.
+# Comporta: motor D.
 #
 # Setas = velocidade fixa, com o
 #         giroscopio corrigindo os
 #         desvios no meio do caminho.
 #
-# Soltou tudo, o robo para.
+# RB    = abre a comporta
+# LB    = fecha a comporta
 #
-# Antes de rodar: controle ligado.
+# Soltou as setas, o robo para.
+#
+# Antes de rodar: controle ligado e
+# comporta FECHADA.
 
 
 # ==========================
@@ -42,16 +47,30 @@ motor_direito = Motor(Port.B)
 
 
 # ==========================
+# MOTOR DA COMPORTA - PORTA D
+# ==========================
+# Positivo = ABRIR, negativo = FECHAR.
+# O sentido se ajusta aqui, na criacao
+# do motor: se abrir para o lado
+# errado, troque a Direction.
+
+motor_comporta = Motor(Port.D, Direction.CLOCKWISE)
+
+# A posicao em que a comporta esta ao
+# iniciar passa a valer como zero.
+# Por isso ela deve estar FECHADA
+# antes de rodar.
+
+motor_comporta.reset_angle(0)
+
+
+# ==========================
 # MEDIDAS DO ROBO
 # ==========================
 # Em MILIMETROS
-#
-# DISTANCIA_RODAS e 128 so neste
-# programa, de proposito: os outros
-# continuam com 143.
 
 DIAMETRO_RODA = 55        # mm
-DISTANCIA_RODAS = 128     # mm
+DISTANCIA_RODAS = 143     # mm
 
 
 # ==========================
@@ -62,6 +81,22 @@ DISTANCIA_RODAS = 128     # mm
 
 VELOCIDADE_RETA = 200     # mm por segundo
 VELOCIDADE_GIRO = 100     # graus por segundo
+
+
+# ==========================
+# COMPORTA
+# ==========================
+# Abrir e fechar giram essas voltas.
+# A comporta vai ate a POSICAO (fechada
+# = 0, aberta = voltas), nao "mais
+# N voltas": apertar duas vezes o
+# mesmo botao nao passa do fim.
+
+VOLTAS_COMPORTA = 6
+VELOCIDADE_COMPORTA = 720                  # graus por segundo
+
+COMPORTA_FECHADA = 0                       # graus
+COMPORTA_ABERTA = VOLTAS_COMPORTA * 360    # graus
 
 
 # ==========================
@@ -128,7 +163,12 @@ print("")
 print("O giroscopio corrige o rumo.")
 
 print("")
-print("Soltou tudo, o robo para.")
+print("COMPORTA:")
+print("RB = ABRIR")
+print("LB = FECHAR")
+
+print("")
+print("Soltou as setas, o robo para.")
 
 
 # ==========================================================
@@ -136,6 +176,10 @@ print("Soltou tudo, o robo para.")
 # ==========================================================
 
 hub.light.on(Color.GREEN)
+
+# A comporta comeca FECHADA.
+
+alvo_comporta = COMPORTA_FECHADA
 
 while True:
 
@@ -184,6 +228,30 @@ while True:
     else:
 
         robo.drive(velocidade, giro)
+
+
+    # ==========================
+    # COMPORTA
+    # ==========================
+    # RB abre, LB fecha. Os dois juntos
+    # nao fazem nada. Sem esperar o
+    # fim: o robo continua obedecendo
+    # as setas enquanto ela se mexe.
+
+    abrir = Button.RB in botoes and Button.LB not in botoes
+    fechar = Button.LB in botoes and Button.RB not in botoes
+
+    if abrir and alvo_comporta != COMPORTA_ABERTA:
+
+        alvo_comporta = COMPORTA_ABERTA
+
+        motor_comporta.run_target(VELOCIDADE_COMPORTA, alvo_comporta, wait=False)
+
+    elif fechar and alvo_comporta != COMPORTA_FECHADA:
+
+        alvo_comporta = COMPORTA_FECHADA
+
+        motor_comporta.run_target(VELOCIDADE_COMPORTA, alvo_comporta, wait=False)
 
 
     wait(10)
