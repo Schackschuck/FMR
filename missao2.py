@@ -80,7 +80,7 @@ DISTANCIA_RODAS = 143     # mm
 # velocidades.
 
 VELOCIDADE_RETA = 200     # mm por segundo
-VELOCIDADE_GIRO = 100     # graus por segundo
+VELOCIDADE_GIRO = 70      # graus por segundo
 
 
 # ==========================
@@ -93,7 +93,7 @@ VELOCIDADE_GIRO = 100     # graus por segundo
 # mesmo botao nao passa do fim.
 
 VOLTAS_COMPORTA = 6
-VELOCIDADE_COMPORTA = 720                  # graus por segundo
+VELOCIDADE_COMPORTA = 1080                 # graus por segundo
 
 COMPORTA_FECHADA = 0                       # graus
 COMPORTA_ABERTA = VOLTAS_COMPORTA * 360    # graus
