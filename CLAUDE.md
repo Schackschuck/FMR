@@ -49,9 +49,7 @@ robo.use_gyro(True)
 - Antes de andar, esperar `hub.imu.ready()` com o robô parado
 
 Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
-`DISTANCIA_RODAS = 143` mm, de centro a centro das rodas. Exceção: o
-`missao2.py` usa `DISTANCIA_RODAS = 128` mm, de propósito — não igualar aos
-outros.
+`DISTANCIA_RODAS = 143` mm, de centro a centro das rodas.
 
 **Exceção: `controle_xbox.py`.** No controle remoto a tração usa
 `robo.use_gyro(False)` e, com nada apertado, solta o robô com `robo.stop()` em
@@ -64,6 +62,15 @@ desvios no meio do caminho, e o programa espera `hub.imu.ready()` antes de
 aceitar comandos. Com nada apertado usa `robo.brake()`, nunca `drive(0, 0)`, para
 não segurar o robô parado (anda a 200 mm/s e rolaria se só soltasse). Só o
 d-pad dirige; o joystick não anda o robô.
+
+**`missao2.py`: comporta na porta D.** RB abre e LB fecha, cada um girando
+`VOLTAS_COMPORTA = 6` voltas (2160°). O motor é criado com
+`Direction.CLOCKWISE` e logo depois vem `motor_comporta.reset_angle(0)`, como na
+garra: a comporta deve estar **fechada** antes de rodar, e o sentido (positivo =
+abrir) se ajusta na criação do motor, nunca trocando o sinal na chamada. Usa
+`run_target` com `wait=False` até a **posição** (fechada = 0, aberta = 2160), não
+"mais 6 voltas": apertar duas vezes o mesmo botão não passa do fim, e o robô
+continua obedecendo as setas enquanto ela se mexe. RB e LB juntos não fazem nada.
 
 Nos percursos o giroscópio continua obrigatório.
 
@@ -85,8 +92,9 @@ garra onde começa.
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 - `controle_xbox.py` — controle remoto pelo controle do Xbox: direcional (setas)
   anda, joystick direito mexe a haste (porta C), RB/LB giram a corda (porta D)
-- `missao2.py` — controle remoto pelo Xbox, só tração, só pelo d-pad: setas a
-  200 mm/s e 100 graus/s, com o giroscópio corrigindo o rumo
+- `missao2.py` — controle remoto pelo Xbox, tração só pelo d-pad: setas a
+  200 mm/s e 100 graus/s, com o giroscópio corrigindo o rumo; RB/LB abrem e
+  fecham a comporta (porta D)
 
 ## Carga: percurso2 e percurso3 freiam devagar
 
