@@ -93,7 +93,7 @@ garra onde começa.
 - `controle_xbox.py` — controle remoto pelo controle do Xbox: direcional (setas)
   anda, joystick direito mexe a haste (porta C), RB/LB giram a corda (porta D)
 - `missao2.py` — controle remoto pelo Xbox, tração só pelo d-pad: setas a
-  200 mm/s e 100 graus/s, com o giroscópio corrigindo o rumo; RB/LB abrem e
+  200 mm/s e 70 graus/s, com o giroscópio corrigindo o rumo; RB/LB abrem e
   fecham a comporta (porta D)
 
 ## Carga: percurso2 e percurso3 freiam devagar
