@@ -173,3 +173,26 @@ Para tarefas de programação que não sejam triviais, o agente principal:
 
 Para debug difícil ou mudanças que atravessam o projeto inteiro, o agente
 principal pode fazer direto, sem delegar.
+
+## Git: branch `main`, PR e merge automático
+
+A branch principal é **`main`**. É ela que vai para o robô; nada de trabalho
+direto nela.
+
+Ao terminar qualquer mudança, o agente faz o ciclo inteiro **sem perguntar**:
+
+1. Trabalha numa branch própria criada a partir da `main` atualizada
+   (a branch que a sessão já recebeu, ou uma nova `claude/<assunto>`).
+2. Faz o commit (mensagem em português, curta, dizendo o arquivo e o que mudou)
+   e o `git push -u origin <branch>`.
+3. Abre o pull request para a `main`, **pronto, não rascunho (draft)**.
+4. Faz o **merge** do PR na hora (merge commit), já que o projeto não tem CI.
+5. Apaga a branch remota que foi mergeada e confirma ao usuário que a mudança
+   está na `main`.
+
+Se o merge der conflito, traz a `main` para a branch (`git merge origin/main`),
+resolve, empurra e tenta de novo. Se o conflito mexer na mesma lógica dos dois
+lados, pergunta ao usuário antes.
+
+A próxima mudança começa de novo da `main` atualizada, nunca em cima de uma
+branch já mergeada.
