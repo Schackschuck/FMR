@@ -105,6 +105,9 @@ garra onde começa.
 - `missao2.py` — controle remoto pelo Xbox, tração só pelo d-pad: setas a
   200 mm/s e 70 graus/s, com o giroscópio corrigindo o rumo; RB/LB abrem e
   fecham a comporta (porta D)
+- `missao3.py` — percurso autônomo com a garra (porta D): anda 150 cm, gira
+  90° à direita, anda 14 cm, solta o cano, dá ré, gira 90° à direita e volta
+  160 cm, freando devagar como o `percurso2.py`
 
 ## Carga: percurso2 e percurso3 freiam devagar
 
