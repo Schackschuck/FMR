@@ -18,7 +18,8 @@ from pybricks.iodevices import XboxController
 # Direcional (setas) = anda e gira
 # Joystick DIREITO   = levanta e
 #                      abaixa a haste
-# RB / LB            = giram a corda
+# RB / LB            = sobe / desce
+#                      a corda
 #
 # Nao tem botao de parar: soltou o
 # controle, tudo para.
@@ -88,7 +89,12 @@ VELOCIDADE_GIRO = 38            # graus por segundo
 VELOCIDADE_HASTE_SUBIDA = 90    # graus por segundo
 VELOCIDADE_HASTE_DESCIDA = 180  # graus por segundo
 
-VELOCIDADE_CORDA = 900          # graus por segundo
+# Corda: RB sobe nesta velocidade;
+# LB DESCE no maximo que o motor da
+# (o limite de velocidade dele).
+
+VELOCIDADE_CORDA_SUBIDA = 900                                  # graus por segundo
+VELOCIDADE_CORDA_DESCIDA = motor_corda.control.limits()[0]     # graus por segundo
 
 
 # ==========================
@@ -146,8 +152,8 @@ print("Baixo = ABAIXAR")
 
 print("")
 print("CORDA:")
-print("RB = GIRAR")
-print("LB = GIRAR AO CONTRARIO")
+print("RB = SUBIR")
+print("LB = DESCER (rapido)")
 
 print("")
 print("Soltou o controle, tudo para.")
@@ -235,11 +241,11 @@ while True:
 
     if Button.RB in botoes:
 
-        motor_corda.run(VELOCIDADE_CORDA)
+        motor_corda.run(VELOCIDADE_CORDA_SUBIDA)
 
     elif Button.LB in botoes:
 
-        motor_corda.run(-VELOCIDADE_CORDA)
+        motor_corda.run(-VELOCIDADE_CORDA_DESCIDA)
 
     else:
 
