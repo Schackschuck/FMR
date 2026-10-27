@@ -26,7 +26,7 @@ from pybricks.iodevices import XboxController
 # Soltou as setas, o robo para.
 #
 # Antes de rodar: controle ligado e
-# comporta FECHADA.
+# comporta ABERTA.
 
 
 # ==========================
@@ -58,7 +58,7 @@ motor_comporta = Motor(Port.D, Direction.CLOCKWISE)
 
 # A posicao em que a comporta esta ao
 # iniciar passa a valer como zero.
-# Por isso ela deve estar FECHADA
+# Por isso ela deve estar ABERTA
 # antes de rodar.
 
 motor_comporta.reset_angle(0)
@@ -87,16 +87,16 @@ VELOCIDADE_GIRO = 70      # graus por segundo
 # COMPORTA
 # ==========================
 # Abrir e fechar giram essas voltas.
-# A comporta vai ate a POSICAO (fechada
-# = 0, aberta = voltas), nao "mais
+# A comporta vai ate a POSICAO (aberta
+# = 0, fechada = -voltas), nao "mais
 # N voltas": apertar duas vezes o
 # mesmo botao nao passa do fim.
 
 VOLTAS_COMPORTA = 6
 VELOCIDADE_COMPORTA = 1080                 # graus por segundo
 
-COMPORTA_FECHADA = 0                       # graus
-COMPORTA_ABERTA = VOLTAS_COMPORTA * 360    # graus
+COMPORTA_ABERTA = 0                        # graus
+COMPORTA_FECHADA = -VOLTAS_COMPORTA * 360  # graus
 
 
 # ==========================
@@ -177,9 +177,9 @@ print("Soltou as setas, o robo para.")
 
 hub.light.on(Color.GREEN)
 
-# A comporta comeca FECHADA.
+# A comporta comeca ABERTA.
 
-alvo_comporta = COMPORTA_FECHADA
+alvo_comporta = COMPORTA_ABERTA
 
 while True:
 
