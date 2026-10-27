@@ -85,6 +85,8 @@ Nos percursos o giroscópio continua obrigatório.
 
 Cada missão tem a sua pasta; testes e controle remoto ficam em `testes/`.
 Os programas não importam uns aos outros: cada arquivo é baixado sozinho no hub.
+Cada pasta de missão tem um `README.md` com as instruções de uso; se o
+programa mudar, o README da pasta muda junto.
 
 ```
 missao_2/missao2.py
