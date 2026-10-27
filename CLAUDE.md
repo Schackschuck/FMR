@@ -83,9 +83,26 @@ Nos percursos o giroscópio continua obrigatório.
 
 ## Arquivos
 
-O percurso é dividido em três programas, rodados em sequência pelo usuário. A
-divisão existe porque um cano pesado é colocado na garra antes de cada uma das
-duas entregas.
+Cada missão tem a sua pasta; testes e controle remoto ficam em `testes/`.
+Os programas não importam uns aos outros: cada arquivo é baixado sozinho no hub.
+
+```
+missao_2/missao2.py
+missao_3/missao3.py
+missao_3/percurso1.py
+missao_3/percurso2.py
+missao_3/percurso3.py
+missao_4/missao4.py
+testes/controle_xbox.py
+testes/teste_garra.py
+testes/teste_rapido.py
+```
+
+### `missao_3/`
+
+O percurso da missão 3 é dividido em três programas, rodados em sequência pelo
+usuário. A divisão existe porque um cano pesado é colocado na garra antes de
+cada uma das duas entregas.
 
 - `percurso1.py` — passos 1 a 7, robô **vazio**
 - `percurso2.py` — passos 9 a 16, retão de 83 cm, leva o **primeiro cano**,
@@ -95,19 +112,28 @@ duas entregas.
 Entre um programa e o outro: colocar o cano, fechar a garra nele **na mão** e
 não mover o robô de lugar. Cada programa zera o rumo do giroscópio e o ângulo da
 garra onde começa.
+- `missao3.py` — percurso autônomo com a garra (porta D): anda 150 cm, gira
+  90° à direita, anda 14 cm, solta o cano, dá ré, gira 90° à direita e volta
+  160 cm, freando devagar como o `percurso2.py`
+
+### `missao_2/`
+
+- `missao2.py` — controle remoto pelo Xbox, tração só pelo d-pad: setas a
+  200 mm/s e 70 graus/s, com o giroscópio corrigindo o rumo; RB/LB abrem e
+  fecham a comporta (porta D)
+
+### `missao_4/`
+
+- `missao4.py` — igual ao `controle_xbox.py`, mas grava: cada movimento sai no
+  terminal como linha de código (`robo.straight`, `robo.turn`, `robo.curve`,
+  `run_target` da haste e da corda) para montar a versão autônoma da missão
+
+### `testes/`
+
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 - `controle_xbox.py` — controle remoto pelo controle do Xbox: direcional (setas)
   anda, joystick direito mexe a haste (porta C), RB/LB giram a corda (porta D)
-- `missao4.py` — igual ao `controle_xbox.py`, mas grava: cada movimento sai no
-  terminal como linha de código (`robo.straight`, `robo.turn`, `robo.curve`,
-  `run_target` da haste e da corda) para montar a versão autônoma da missão
-- `missao2.py` — controle remoto pelo Xbox, tração só pelo d-pad: setas a
-  200 mm/s e 70 graus/s, com o giroscópio corrigindo o rumo; RB/LB abrem e
-  fecham a comporta (porta D)
-- `missao3.py` — percurso autônomo com a garra (porta D): anda 150 cm, gira
-  90° à direita, anda 14 cm, solta o cano, dá ré, gira 90° à direita e volta
-  160 cm, freando devagar como o `percurso2.py`
 
 ## Carga: percurso2 e percurso3 freiam devagar
 
