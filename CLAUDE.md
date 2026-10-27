@@ -65,10 +65,11 @@ d-pad dirige; o joystick não anda o robô.
 
 **`missao2.py`: comporta na porta D.** RB abre e LB fecha, cada um girando
 `VOLTAS_COMPORTA = 6` voltas (2160°). O motor é criado com
-`Direction.CLOCKWISE` e logo depois vem `motor_comporta.reset_angle(0)`, como na
-garra: a comporta deve estar **fechada** antes de rodar, e o sentido (positivo =
-abrir) se ajusta na criação do motor, nunca trocando o sinal na chamada. Usa
-`run_target` com `wait=False` até a **posição** (fechada = 0, aberta = 2160), não
+`Direction.CLOCKWISE` e logo depois vem `motor_comporta.reset_angle(0)`. Ao
+contrário da garra, a comporta deve estar **aberta** antes de rodar (se começar
+fechada, o LB fecha além do fim), e o sentido (positivo = abrir) se ajusta na
+criação do motor, nunca trocando o sinal na chamada. Usa
+`run_target` com `wait=False` até a **posição** (aberta = 0, fechada = -2160), não
 "mais 6 voltas": apertar duas vezes o mesmo botão não passa do fim, e o robô
 continua obedecendo as setas enquanto ela se mexe. RB e LB juntos não fazem nada.
 

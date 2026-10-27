@@ -4,7 +4,8 @@ Programa: `missao2.py`
 
 ## Antes de rodar
 
-1. Comporta **fechada** (a posição em que ela está ao iniciar vira o zero).
+1. Comporta **aberta** (a posição em que ela está ao iniciar vira o zero).
+   Se começar fechada, o LB fecha mais do que deveria.
 2. Controle do Xbox ligado. Na primeira vez com este hub, segure o botão de
    parear (atrás do controle) até o botão Xbox piscar rápido.
 3. Rode o programa e **não mexa no robô** até aparecer "Giroscopio pronto."
@@ -18,8 +19,8 @@ Programa: `missao2.py`
 | Seta baixo | dá ré |
 | Seta esquerda / direita | gira |
 | Cima + esquerda/direita | anda fazendo curva |
-| RB | abre a comporta (6 voltas) |
-| LB | fecha a comporta |
+| LB | fecha a comporta (6 voltas) |
+| RB | abre a comporta de volta |
 
 - Soltou as setas, o robô para.
 - O joystick não anda o robô; só as setas.
