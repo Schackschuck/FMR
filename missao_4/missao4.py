@@ -10,7 +10,7 @@ from pybricks.iodevices import XboxController
 
 
 # ==========================================================
-#             MISSAO 4 - XBOX COM GRAVACAO
+#                MISSAO 4 - XBOX
 # ==========================================================
 # Mesmos comandos do controle pelo
 # teclado, agora no controle do Xbox.
@@ -18,14 +18,14 @@ from pybricks.iodevices import XboxController
 # Direcional (setas) = anda e gira
 # Joystick DIREITO   = levanta e
 #                      abaixa a haste
-# RB / LB            = giram a corda
-#
-# Cada movimento feito sai no terminal
-# como linha de codigo, para copiar e
-# montar a versao autonoma da missao.
+# RB / LB            = sobe / desce
+#                      a corda
 #
 # Nao tem botao de parar: soltou o
 # controle, tudo para.
+#
+# Sem gravacao. Para gravar os
+# movimentos, use o missao4_gravacao.py.
 #
 # Antes de rodar: controle ligado.
 
@@ -51,26 +51,15 @@ motor_direito = Motor(Port.B)
 # MOTOR DA HASTE - PORTA C
 # ==========================
 # Positivo = LEVANTAR.
-#
-# A posicao em que a haste esta ao
-# ligar o programa vira o zero. O
-# programa autonomo tem que comecar
-# com a haste na mesma posicao.
 
 motor_haste = Motor(Port.C, Direction.CLOCKWISE)
-motor_haste.reset_angle(0)
 
 
 # ==========================
 # MOTOR DA CORDA - PORTA D
 # ==========================
-# A posicao em que a corda esta ao
-# ligar o programa vira o zero. O
-# programa autonomo tem que comecar
-# com a corda na mesma posicao.
 
 motor_corda = Motor(Port.D, Direction.CLOCKWISE)
-motor_corda.reset_angle(0)
 
 
 # ==========================
@@ -103,24 +92,12 @@ VELOCIDADE_GIRO = 38            # graus por segundo
 VELOCIDADE_HASTE_SUBIDA = 90    # graus por segundo
 VELOCIDADE_HASTE_DESCIDA = 180  # graus por segundo
 
-VELOCIDADE_CORDA = 900          # graus por segundo
+# Corda: RB sobe nesta velocidade;
+# LB DESCE no maximo que o motor da
+# (o limite de velocidade dele).
 
-
-# ==========================
-# GRAVACAO
-# ==========================
-# Um movimento so termina depois de
-# solto por este tempo: assim entra
-# o que o robo ainda rolou, e toques
-# rapidos no mesmo botao viram um
-# movimento so.
-
-TEMPO_ASSENTAR = 300            # ms
-
-# Para converter o giro em radianos
-# no calculo do raio da curva.
-
-GRAUS_POR_RADIANO = 57.2958
+VELOCIDADE_CORDA_SUBIDA = 900                                  # graus por segundo
+VELOCIDADE_CORDA_DESCIDA = motor_corda.control.limits()[0]     # graus por segundo
 
 
 # ==========================
@@ -140,136 +117,6 @@ robo = DriveBase(
 # trancos e o robo tremia parado.
 
 robo.use_gyro(False)
-
-
-# ==========================
-# FUNCOES DE GRAVACAO
-# ==========================
-# Cada mecanismo (tracao, haste,
-# corda) tem um "trecho":
-#
-# comando  = o que esta sendo feito
-#            (None = nada aberto).
-#            Tracao: (velocidade, giro).
-#            Haste e corda: 1 ou -1.
-# inicio   = ms em que o trecho abriu
-# soltou_em = ms em que foi solto
-#            (None = ainda apertado)
-# partida  = leitura dos sensores
-#            quando o trecho abriu
-
-def novo_trecho():
-
-    return {"comando": None, "inicio": 0, "soltou_em": None, "partida": None}
-
-
-def ler_tracao():
-
-    return (robo.distance(), robo.angle())
-
-
-def ler_haste():
-
-    return motor_haste.angle()
-
-
-def ler_corda():
-
-    return motor_corda.angle()
-
-
-def atualizar_trecho(trecho, comando, agora, ler, fechar):
-
-    # comando = None quando nada esta apertado para esse mecanismo
-
-    if comando is not None:
-
-        trecho["soltou_em"] = None
-
-        if trecho["comando"] == comando:
-            return
-
-        if trecho["comando"] is not None:
-            fechar(trecho, ler())
-
-        trecho["comando"] = comando
-        trecho["inicio"] = agora
-        trecho["partida"] = ler()
-
-    elif trecho["comando"] is not None:
-
-        if trecho["soltou_em"] is None:
-            trecho["soltou_em"] = agora
-
-        elif agora - trecho["soltou_em"] >= TEMPO_ASSENTAR:
-            fechar(trecho, ler())
-            trecho["comando"] = None
-            trecho["soltou_em"] = None
-
-
-def fechar_tracao(trecho, final):
-
-    distancia = final[0] - trecho["partida"][0]
-    angulo = final[1] - trecho["partida"][1]
-
-    velocidade, giro = trecho["comando"]
-    t = trecho["inicio"] / 1000
-
-    # Nao andou: nao imprime nada
-    if abs(distancia) < 1 and abs(angulo) < 1:
-        return
-
-    if giro == 0:
-
-        print("robo.straight({})  # t={:.1f}s".format(int(round(distancia)), t))
-
-    elif velocidade == 0:
-
-        print("robo.turn({})  # t={:.1f}s".format(int(round(angulo)), t))
-
-    elif abs(angulo) < 1:
-
-        # Curva que nao girou: conta como reto
-        print("robo.straight({})  # t={:.1f}s".format(int(round(distancia)), t))
-
-    else:
-
-        # Com este raio, a curva refaz exatamente
-        # a distancia e o giro medidos.
-        raio = distancia * GRAUS_POR_RADIANO / abs(angulo)
-
-        print("robo.curve({}, {})  # t={:.1f}s, andou {} mm, girou {} graus".format(
-            int(round(raio)), int(round(angulo)), t,
-            int(round(distancia)), int(round(angulo))))
-
-
-def fechar_haste(trecho, final):
-
-    if trecho["comando"] == 1:
-        velocidade = VELOCIDADE_HASTE_SUBIDA
-    else:
-        velocidade = VELOCIDADE_HASTE_DESCIDA
-
-    variacao = final - trecho["partida"]
-    t = trecho["inicio"] / 1000
-
-    if abs(variacao) < 1:
-        return
-
-    print("motor_haste.run_target({}, {})  # t={:.1f}s, {:+d} graus".format(
-        velocidade, int(round(final)), t, int(round(variacao))))
-
-
-def fechar_corda(trecho, final):
-
-    variacao = final - trecho["partida"]
-    t = trecho["inicio"] / 1000
-
-    if abs(variacao) < 1:
-        return
-
-    print("motor_corda.run_target({}, {})  # t={:.1f}s, {:+d} graus".format(
-        VELOCIDADE_CORDA, int(round(final)), t, int(round(variacao))))
 
 
 # ==========================
@@ -308,29 +155,11 @@ print("Baixo = ABAIXAR")
 
 print("")
 print("CORDA:")
-print("RB = GIRAR")
-print("LB = GIRAR AO CONTRARIO")
+print("RB = SUBIR")
+print("LB = DESCER (rapido)")
 
 print("")
 print("Soltou o controle, tudo para.")
-
-print("")
-print("Cada movimento aparece abaixo como")
-print("linha de codigo, ao terminar.")
-
-
-# ==========================
-# INICIO DA GRAVACAO
-# ==========================
-
-trecho_tracao = novo_trecho()
-trecho_haste = novo_trecho()
-trecho_corda = novo_trecho()
-
-cronometro = StopWatch()
-
-print("")
-print("# ===== GRAVACAO - MISSAO 4 =====")
 
 
 # ==========================================================
@@ -346,7 +175,6 @@ while True:
     # ==========================
 
     botoes = controle.buttons.pressed()
-    agora = cronometro.time()
 
 
     # ==========================
@@ -382,15 +210,9 @@ while True:
         # segurando o robo, com barulho.
         robo.stop()
 
-        comando_tracao = None
-
     else:
 
         robo.drive(velocidade, giro)
-
-        comando_tracao = (velocidade, giro)
-
-    atualizar_trecho(trecho_tracao, comando_tracao, agora, ler_tracao, fechar_tracao)
 
 
     # ==========================
@@ -406,22 +228,14 @@ while True:
 
         motor_haste.run(comando_haste * VELOCIDADE_HASTE_SUBIDA / 100)
 
-        sentido_haste = 1
-
     elif comando_haste < 0:
 
         motor_haste.run(comando_haste * VELOCIDADE_HASTE_DESCIDA / 100)
-
-        sentido_haste = -1
 
     else:
 
         # Joystick solto
         motor_haste.stop()
-
-        sentido_haste = None
-
-    atualizar_trecho(trecho_haste, sentido_haste, agora, ler_haste, fechar_haste)
 
 
     # ==========================
@@ -430,23 +244,15 @@ while True:
 
     if Button.RB in botoes:
 
-        motor_corda.run(VELOCIDADE_CORDA)
-
-        sentido_corda = 1
+        motor_corda.run(VELOCIDADE_CORDA_SUBIDA)
 
     elif Button.LB in botoes:
 
-        motor_corda.run(-VELOCIDADE_CORDA)
-
-        sentido_corda = -1
+        motor_corda.run(-VELOCIDADE_CORDA_DESCIDA)
 
     else:
 
         motor_corda.stop()
-
-        sentido_corda = None
-
-    atualizar_trecho(trecho_corda, sentido_corda, agora, ler_corda, fechar_corda)
 
 
     wait(10)

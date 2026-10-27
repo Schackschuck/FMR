@@ -51,7 +51,7 @@ robo.use_gyro(True)
 Medidas do robô, já conferidas: `DIAMETRO_RODA = 55` mm (5,5 cm) e
 `DISTANCIA_RODAS = 143` mm, de centro a centro das rodas.
 
-**Exceção: `controle_xbox.py` e `missao4.py`.** No controle remoto a tração usa
+**Exceção: `controle_xbox.py`, `missao4.py` e `missao4_gravacao.py`.** No controle remoto a tração usa
 `robo.use_gyro(False)` e, com nada apertado, solta o robô com `robo.stop()` em
 vez de `robo.drive(0, 0)`. Com o giroscópio e o `drive(0, 0)`, os motores
 seguravam o robô o tempo todo: movimentos curtos davam trancos e o motor ficava
@@ -73,12 +73,17 @@ criação do motor, nunca trocando o sinal na chamada. Usa
 "mais 6 voltas": apertar duas vezes o mesmo botão não passa do fim, e o robô
 continua obedecendo as setas enquanto ela se mexe. RB e LB juntos não fazem nada.
 
-**`missao4.py`: gravação.** Um movimento só é impresso depois de solto por
+**`missao4_gravacao.py`: gravação.** Um movimento só é impresso depois de solto por
 `TEMPO_ASSENTAR = 300` ms (entra o que o robô rolou; toques rápidos no mesmo
 botão viram um só). Haste e corda são zeradas com `reset_angle(0)` ao
 iniciar e gravadas como `run_target` até o ângulo absoluto, então o programa
 autônomo tem que começar com elas na mesma posição. Os ângulos de giro
 vêm das rodas (sem giroscópio).
+
+**Corda (porta D) nos três controles do Xbox.** RB sobe a
+`VELOCIDADE_CORDA_SUBIDA = 900` graus/s; LB desce a
+`VELOCIDADE_CORDA_DESCIDA = motor_corda.control.limits()[0]`, o máximo que o
+motor dá.
 
 Nos percursos o giroscópio continua obrigatório.
 
@@ -95,6 +100,7 @@ missao_3/percurso1.py
 missao_3/percurso2.py
 missao_3/percurso3.py
 missao_4/missao4.py
+missao_4/missao4_gravacao.py
 testes/controle_xbox.py
 testes/teste_garra.py
 testes/teste_rapido.py
@@ -124,7 +130,8 @@ garra onde começa.
 
 ### `missao_4/`
 
-- `missao4.py` — igual ao `controle_xbox.py`, mas grava: cada movimento sai no
+- `missao4.py` — a missão pelo Xbox, sem gravação (igual ao `controle_xbox.py`)
+- `missao4_gravacao.py` — igual ao `missao4.py`, mas grava: cada movimento sai no
   terminal como linha de código (`robo.straight`, `robo.turn`, `robo.curve`,
   `run_target` da haste e da corda) para montar a versão autônoma da missão
 
@@ -133,7 +140,7 @@ garra onde começa.
 - `teste_garra.py` — mexe só a garra (automático + manual pelos botões)
 - `teste_rapido.py` — anda 10 cm e abre a garra, para conferir medidas
 - `controle_xbox.py` — controle remoto pelo controle do Xbox: direcional (setas)
-  anda, joystick direito mexe a haste (porta C), RB/LB giram a corda (porta D)
+  anda, joystick direito mexe a haste (porta C), RB sobe e LB desce a corda (porta D)
 
 ## Carga: percurso2 e percurso3 freiam devagar
 
