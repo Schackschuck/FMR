@@ -66,7 +66,7 @@ DISTANCIA_RODAS = 143     # mm
 # ==========================
 # VELOCIDADES
 # ==========================
-# Mesma velocidade do percurso1.
+# Mais devagar que o percurso1.
 # O que segura o cano nao e a
 # velocidade, e o freio suave
 # logo abaixo.
@@ -260,12 +260,12 @@ girar_direita(90)
 
 
 # ==========================
-# 11 - ANDAR 12 CM
+# 11 - ANDAR 15 CM
 # ==========================
 
-print("11) Andando 12 cm...")
+print("11) Andando 15 cm...")
 
-andar(12)
+andar(15)
 
 
 # ==========================

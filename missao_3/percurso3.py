@@ -65,7 +65,7 @@ DISTANCIA_RODAS = 143     # mm
 # ==========================
 # VELOCIDADES
 # ==========================
-# Mesma velocidade do percurso1.
+# Mais devagar que o percurso1.
 # O que segura o cano nao e a
 # velocidade, e o freio suave
 # logo abaixo.
@@ -241,12 +241,12 @@ print("PERCURSO 3 INICIADO")
 
 
 # ==========================
-# 19 - ANDAR 1,60 METROS
+# 19 - ANDAR 153 CM
 # ==========================
 
-print("19) Andando 1,60 metros...")
+print("19) Andando 153 cm...")
 
-andar(160)
+andar(153)
 
 
 # ==========================
@@ -259,53 +259,64 @@ girar_direita(90)
 
 
 # ==========================
-# 21 - ANDAR 12 CM
+# 21 - ANDAR 15 CM
 # ==========================
 
-print("21) Andando 12 cm...")
+print("21) Andando 15 cm...")
 
-andar(12)
+andar(15)
 
 
 # ==========================
-# 22 - SOLTAR O CANO
+# 22 - PARAR 1 SEGUNDO
+# ==========================
+
+print("22) Parado 1 segundo")
+
+robo.stop()
+
+wait(1000)
+
+
+# ==========================
+# 23 - SOLTAR O CANO
 # ==========================
 # Abre a garra e deixa o cano.
 
-print("22) Abrindo a garra")
+print("23) Abrindo a garra")
 
 abrir_garra()
 
 
 # ==========================
-# 23 - RÉ 12 CM
+# 24 - RÉ 14 CM
 # ==========================
 
-print("23) Dando re 12 cm...")
+print("24) Dando re 14 cm...")
 
-re(12)
+re(14)
 
 
 # ==========================
-# 24 - CURVA 90° DIREITA
+# 25 - CURVA 90° DIREITA
 # ==========================
 
-print("24) Curva 90 graus direita")
+print("25) Curva 90 graus direita")
 
 girar_direita(90)
 
 
 # ==========================
-# 25 - VOLTAR 1,60 METROS
+# 26 - VOLTAR 160 CM
 # ==========================
 
-print("25) Voltando 1,60 metros...")
+print("26) Voltando 160 cm...")
 
 andar(160)
 
 
 # ==========================
-# 26 - PARAR
+# FIM DA PARTE 3
 # ==========================
 
 robo.stop()
