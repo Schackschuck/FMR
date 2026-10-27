@@ -88,7 +88,6 @@ Os programas não importam uns aos outros: cada arquivo é baixado sozinho no hu
 
 ```
 missao_2/missao2.py
-missao_3/missao3.py
 missao_3/percurso1.py
 missao_3/percurso2.py
 missao_3/percurso3.py
@@ -104,17 +103,15 @@ O percurso da missão 3 é dividido em três programas, rodados em sequência pe
 usuário. A divisão existe porque um cano pesado é colocado na garra antes de
 cada uma das duas entregas.
 
-- `percurso1.py` — passos 1 a 7, robô **vazio**
+- `percurso1.py` — passos 1 a 7, robô **vazio**, a 450 mm/s e 100 graus/s
 - `percurso2.py` — passos 9 a 16, retão de 83 cm, leva o **primeiro cano**,
   solta e volta
-- `percurso3.py` — passos 19 a 26, leva o **segundo cano**, solta e volta
+- `percurso3.py` — passos 19 a 26, retão de 153 cm, leva o **segundo cano**,
+  solta e volta 160 cm
 
 Entre um programa e o outro: colocar o cano, fechar a garra nele **na mão** e
 não mover o robô de lugar. Cada programa zera o rumo do giroscópio e o ângulo da
 garra onde começa.
-- `missao3.py` — percurso autônomo com a garra (porta D): anda 150 cm, gira
-  90° à direita, anda 14 cm, solta o cano, dá ré, gira 90° à direita e volta
-  160 cm, freando devagar como o `percurso2.py`
 
 ### `missao_2/`
 
@@ -138,8 +135,8 @@ garra onde começa.
 ## Carga: percurso2 e percurso3 freiam devagar
 
 Com o cano na garra, frear brusco faz o robô empinar para frente. O que resolve
-é a **desaceleração**, não a velocidade — os três programas andam a 350 mm/s, e
-os dois que carregam cano amortecem o freio:
+é a **desaceleração**, não a velocidade — o `percurso1.py` (vazio) anda a
+450 mm/s, e os dois que carregam cano andam a 350 mm/s e amortecem o freio:
 
 ```python
 robo.settings(

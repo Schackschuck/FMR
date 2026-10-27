@@ -47,10 +47,10 @@ DISTANCIA_RODAS = 143     # mm
 # ==========================
 # VELOCIDADES
 # ==========================
-# Robo vazio: velocidade alta
+# Robo vazio: velocidade normal
 
-VELOCIDADE_RETA = 350     # mm por segundo
-VELOCIDADE_GIRO = 150     # graus por segundo
+VELOCIDADE_RETA = 450     # mm por segundo
+VELOCIDADE_GIRO = 100     # graus por segundo
 
 
 # ==========================
@@ -161,12 +161,12 @@ girar_esquerda(90)
 
 
 # ==========================
-# 3 - ANDAR 60 CM
+# 3 - ANDAR 50 CM
 # ==========================
 
-print("3) Andando 60 cm...")
+print("3) Andando 50 cm...")
 
-andar(60)
+andar(50)
 
 
 # ==========================
@@ -181,12 +181,12 @@ wait(1000)
 
 
 # ==========================
-# 5 - RÉ 37 CM
+# 5 - RÉ 40 CM
 # ==========================
 
-print("5) Dando re 37 cm...")
+print("5) Dando re 40 cm...")
 
-re(37)
+re(40)
 
 
 # ==========================
