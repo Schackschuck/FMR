@@ -27,7 +27,8 @@ parciais.
 |---|---|
 | A | Motor de tração (esquerda) |
 | B | Motor de tração (direita) |
-| D | Motor da garra |
+| C | Motor da haste (`missao4.py`, `missao4_gravacao.py` e `controle_xbox.py`) |
+| D | Motor da garra (missão 3 e testes), da comporta (`missao2.py`) ou da corda (missão 4 e `controle_xbox.py`) |
 
 O motor esquerdo é criado com `Direction.COUNTERCLOCKWISE`, para que valor
 positivo signifique "para frente" nos dois — é o que o `DriveBase` espera.
@@ -92,7 +93,9 @@ Nos percursos o giroscópio continua obrigatório.
 Cada missão tem a sua pasta; testes e controle remoto ficam em `testes/`.
 Os programas não importam uns aos outros: cada arquivo é baixado sozinho no hub.
 Cada pasta de missão tem um `README.md` com as instruções de uso; se o
-programa mudar, o README da pasta muda junto.
+programa mudar, o README da pasta muda junto. O `README.md` da raiz resume o
+projeto: programa ou missão nova entra na tabela dele, e porta nova, na tabela
+de portas.
 
 ```
 missao_2/missao2.py
