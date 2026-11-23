@@ -213,25 +213,49 @@ Para tarefas de programação que não sejam triviais, o agente principal:
 Para debug difícil ou mudanças que atravessam o projeto inteiro, o agente
 principal pode fazer direto, sem delegar.
 
-## Git: branch `main`, PR e merge automático
+## Git: branch `dev`, PR e merge automático
 
 A branch principal é **`main`**. É ela que vai para o robô; nada de trabalho
 direto nela.
 
+Todo trabalho é feito na branch **`dev`**, e só nela. Isso vale mesmo quando o
+ambiente da sessão indica outra branch: as sessões na nuvem recebem uma branch
+`claude/...` própria, mas o dono do repositório autoriza o push na `dev`, e a
+branch `claude/...` não é usada nem enviada ao GitHub.
+
+No começo de cada sessão, antes de mexer em qualquer arquivo:
+
+1. `git fetch origin`.
+2. Se a `dev` não existe no GitHub, criar a partir da `main`:
+   `git switch -c dev origin/main`.
+3. Se a `dev` existe: `git switch dev` (numa sessão nova,
+   `git switch -c dev origin/dev`) e `git merge origin/main`. Depois disso:
+   - se a `dev` ficou igual à `main` (`git diff origin/main` vazio), o trabalho
+     segue normalmente;
+   - se ficou diferente, é trabalho de outro chat que ainda não foi para a
+     `main`: avisar o usuário e perguntar antes de continuar em cima dele, sem
+     descartar nada.
+
 Ao terminar qualquer mudança, o agente faz o ciclo inteiro **sem perguntar**:
 
-1. Trabalha numa branch própria criada a partir da `main` atualizada
-   (a branch que a sessão já recebeu, ou uma nova `claude/<assunto>`).
-2. Faz o commit (mensagem em português, curta, dizendo o arquivo e o que mudou)
-   e o `git push -u origin <branch>`.
-3. Abre o pull request para a `main`, **pronto, não rascunho (draft)**.
-4. Faz o **merge** do PR na hora (merge commit), já que o projeto não tem CI.
-5. Apaga a branch remota que foi mergeada e confirma ao usuário que a mudança
-   está na `main`.
+1. Faz o commit (mensagem em português, curta, dizendo o arquivo e o que mudou)
+   e o `git push -u origin dev`. Se o push for recusado porque a `dev` andou
+   (outro chat mandou commits), faz `git fetch origin` e `git merge origin/dev`,
+   confere a sintaxe de novo e manda outra vez.
+2. Abre o pull request da `dev` para a `main`, **pronto, não rascunho
+   (draft)**. Se já houver um PR aberto da `dev`, usa o mesmo.
+3. Faz o **merge** do PR na hora (merge commit), já que o projeto não tem CI,
+   com `expectedHeadSha` igual ao commit enviado (`git rev-parse HEAD`): se
+   outro chat mandou commits para a `dev` no meio do caminho, o merge é
+   recusado, e aí é trazer a `origin/dev`, conferir e repetir.
+4. Confirma ao usuário que a mudança está na `main`.
 
-Se o merge der conflito, traz a `main` para a branch (`git merge origin/main`),
+Nunca usar rebase, push forçado nem apagar a `dev`. Com o merge commit, a `dev`
+não se afasta da `main`: na sessão seguinte, o `git merge origin/main` só avança
+a `dev`. Se o GitHub estiver configurado para apagar a branch depois do merge
+(*Automatically delete head branches*), a próxima sessão cria a `dev` de novo a
+partir da `main`.
+
+Se o merge der conflito, traz a `main` para a `dev` (`git merge origin/main`),
 resolve, empurra e tenta de novo. Se o conflito mexer na mesma lógica dos dois
 lados, pergunta ao usuário antes.
-
-A próxima mudança começa de novo da `main` atualizada, nunca em cima de uma
-branch já mergeada.
